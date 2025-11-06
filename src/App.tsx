@@ -1,7 +1,12 @@
-export default function App() {
+import { ConsoleLayout } from "@/layouts/ConsoleLayout";
+import { CommandCenter } from "@/components/CommandCenter";
+
+function App() {
     return (
-        <div className="min-h-screen flex items-center justify-center text-flame text-3xl">
-            🔥 FlameForged Core Online
-        </div>
+        <ConsoleLayout>
+            <CommandCenter />
+        </ConsoleLayout>
     );
 }
+
+export default App;

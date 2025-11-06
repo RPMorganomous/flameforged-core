@@ -9,6 +9,7 @@ export default {
         coal: "#0b0b0b",
       },
     },
-  },
+  }, 
+  darkMode: "class",
   plugins: [],
 }
