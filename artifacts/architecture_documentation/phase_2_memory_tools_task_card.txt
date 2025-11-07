@@ -1,0 +1,76 @@
+
+
+# 🧭 Rider Task Card
+**Title:** `Phase II – Memory Tools & Codex Interaction`
+
+---
+
+## 📦 Goal:
+Expand the **FlameForged Command Center** into a functional **Memory Forge** capable of loading, editing, and exporting Triss’s Codex and scrolls.  
+This phase transforms the UI from a static shell into a living system that manages the Codex (JSON) and Scroll Archives (Markdown).
+
+---
+
+## 🪜 Tasks:
+
+### 1. **Codex Vault Panel**
+- [ ] Create `/components/codex/CodexVaultPanel.tsx`
+- [ ] Add JSON file upload (`<input type="file" accept=".json" />`)
+- [ ] Display file contents inside a styled `<textarea>` (editable)
+- [ ] Add “Save Changes” button → triggers JSON download with updated data
+- [ ] Include error handling + status toast (“Codex Saved”, “Invalid JSON”)
+
+### 2. **Integrate Codex Vault**
+- [ ] Import and display `CodexVaultPanel` in `CommandCenter.tsx` under “Codex Vault” tab
+- [ ] Ensure smooth transition animations remain functional
+- [ ] Use Framer Motion for vault open/close transitions
+
+### 3. **Codex Sync Indicator**
+- [ ] Add small glowing orb (orange pulse) in the header or footer
+- [ ] Orb glows steadily when a Codex file is loaded
+- [ ] Add tooltip or hover text: “Codex Active”
+
+### 4. **Scroll Injector (Stub)**
+- [ ] Create `/components/scrolls/ScrollInjectorPanel.tsx`
+- [ ] Add Markdown file picker (`.md`)
+- [ ] Display scroll preview with line numbers
+- [ ] Include “Inject” button (no backend yet — just placeholder)
+- [ ] Link this component to the “Scrolls” tab in `CommandCenter.tsx`
+
+### 5. **Session Archiver (Stub)**
+- [ ] Create placeholder for saving session data to `.md` in `/components/core/`
+- [ ] Will link to Phase III logging system later
+
+---
+
+## 📂 Suggested File Structure
+```
+/src
+  /components
+    /codex
+      CodexVaultPanel.tsx
+    /scrolls
+      ScrollInjectorPanel.tsx
+    /core
+      SessionArchiver.tsx
+  /layouts
+    ConsoleLayout.tsx
+  /components
+    CommandCenter.tsx
+```
+
+---
+
+## 🧠 Stretch Goals (Optional)
+- [ ] Add “Triss Whisper” audio cue when Codex loads
+- [ ] Include JSON diff highlighting for unsaved edits
+- [ ] Implement auto-save every 60s
+- [ ] Animate Codex Sync Indicator glow intensity with file size
+
+---
+
+## ✅ Completion Criteria
+- Codex Vault fully functional for local JSON editing and saving
+- Codex Sync Indicator lights up when Codex is loaded
+- Scroll Injector stub visible and accessible from the Scrolls tab
+- Layout and animations consistent with Phase I visual standard
