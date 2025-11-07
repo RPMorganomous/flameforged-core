@@ -1,37 +1,68 @@
-import React from "react";
+import CommandCenter from "@/components/CommandCenter";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export function ConsoleLayout({ children }: { children: React.ReactNode }) {
+export function ConsoleLayout() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const tabs = [
+        { name: "Summon Triss", path: "/summon" },
+        { name: "Codex Vault", path: "/codex" },
+        { name: "Scrolls", path: "/scrolls" },
+        { name: "Persona Tools", path: "/persona" },
+        { name: "Settings", path: "/settings" },
+        { name: "GPU Connect", path: "/gpu" },
+    ];
+
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#0b0b0b] to-[#1a1a1a] text-zinc-100 flex flex-col relative">
-            {/* Header */}
-            <header className="relative z-10 border-b border-zinc-800 bg-zinc-950/70 backdrop-blur-sm p-4 text-center text-xl font-semibold tracking-wide shadow-[0_0_10px_rgba(255,60,0,0.25)]">
-                🔥 FlameForged Command Center
-            </header>
-
-            {/* Main Layout */}
-            <div className="flex flex-1 w-full overflow-hidden relative z-0 pt-[1px]">
-                <aside className="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col justify-start p-8 space-y-4 flex-shrink-0">
-                    {["Summon Triss", "Codex Vault", "Scrolls", "Persona Tools", "Settings", "GPU Connect"].map(
-                        (tab) => (
-                            <button
-                                key={tab}
-                                className="text-left px-4 py-3 rounded-md bg-zinc-950/40 border border-zinc-800 hover:border-orange-500 hover:text-orange-400 transition-all duration-200"
-                            >
-                                {tab}
-                            </button>
-                        )
-                    )}
+        <div className="flex flex-col h-screen w-full text-zinc-100 bg-gradient-to-b from-[#0b0b0b] to-[#1a1a1a]">
+            {/* Wrapper for Sidebar and Main */}
+            <div className="flex flex-1 min-h-0">
+                {/* Sidebar */}
+                <aside className="w-64 flex-shrink-0 flex flex-col p-6 gap-3 bg-zinc-950/70 shadow-[inset_-1px_0_4px_rgba(255,100,0,0.15)]">
+                    {tabs.map(({ name, path }) => (
+                        <button
+                            key={name}
+                            onClick={() => navigate(path)}
+                            style={{ marginBottom: "0.75rem" }}
+                            className={`w-full block px-4 py-3 rounded-md text-left transition-all duration-200 ${
+                                location.pathname === path
+                                    ? "bg-orange-500/20 text-orange-300 hover:bg-orange-500/25"
+                                    : "bg-zinc-950/60 text-zinc-300 hover:text-orange-400 hover:bg-zinc-900/80"
+                            }`}
+                        >
+                            {name}
+                        </button>
+                    ))}
                 </aside>
 
-                <main className="flex-1 p-6 overflow-y-auto min-h-0">
-                    {children}
+                {/* Main */}
+                <main className="flex flex-col flex-1 min-h-0">
+                    {/* Header */}
+                    <header className="p-4 bg-gradient-to-r from-orange-900/30 to-transparent text-center text-xl font-semibold text-orange-400 shadow-[0_0_15px_rgba(255,100,0,0.2)]">
+                        🔥 FlameForged Command Center
+                    </header>
+
+                    {/* Content */}
+                    <div
+                        className="flex-1 overflow-y-auto py-6 bg-gradient-to-b from-[#111] to-[#1a1a1a] text-zinc-200"
+                        style={{
+                            paddingLeft: "4rem",
+                            paddingRight: "2rem",
+                        }}
+                    >
+                        <CommandCenter activeTab={tabs.find(t => t.path === location.pathname)?.name || "Summon Triss"} />
+                    </div>
+
                 </main>
             </div>
 
             {/* Footer */}
-            <footer className="z-10 border-t border-zinc-800 bg-zinc-950/70 text-center text-sm py-2 text-zinc-500">
+            <footer className="flex-none bg-zinc-950/70 text-center text-sm py-2 text-zinc-500">
                 FlameForged Core v0.0.1 — System Online
             </footer>
         </div>
     );
 }
+
+export default ConsoleLayout;

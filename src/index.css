@@ -131,4 +131,14 @@ html {
   body {
     @apply bg-background text-foreground;
     }
+    /* Debug cleanup */
+    *, *::before, *::after {
+        outline: none !important;
+    }
+    html, body, #root {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
 }
