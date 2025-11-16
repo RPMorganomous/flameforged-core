@@ -1,25 +1,29 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import ConsoleLayout from "@/layouts/ConsoleLayout"; // ✅ use default import & alias
+import type { ReactElement } from "react";
+import ConsoleLayout from "./layouts/ConsoleLayout";
+import { SessionProvider } from "./modules/sessions/SessionContext";
+import { InvocationProvider } from "./modules/invocation/InvocationContext";
+import { CodexProvider } from "./modules/codex/CodexContext";
+import { ScrollProvider } from "./modules/scroll/ScrollContext";
+import { PersonaProvider } from "./modules/persona/PersonaContext";
+import { GPUProvider } from "./modules/gpu/GPUContext";
+import { CohesionProvider } from "./modules/cohesion/CohesionContext";
 
-import SummonTriss from "@/modules/SummonTriss";
-import CodexVault from "@/modules/CodexVault";
-import Scrolls from "@/modules/Scrolls";
-import PersonaTools from "@/modules/PersonaTools";
-import Settings from "@/modules/Settings";
-import GpuConnect from "@/modules/GpuConnect";
-
-export default function App() {
+export default function App(): ReactElement {
     return (
-        <ConsoleLayout>
-            <Routes>
-                <Route path="/" element={<Navigate to="/summon" />} />
-                <Route path="/summon" element={<SummonTriss />} />
-                <Route path="/codex" element={<CodexVault />} />
-                <Route path="/scrolls" element={<Scrolls />} />
-                <Route path="/persona" element={<PersonaTools />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/gpu" element={<GpuConnect />} />
-            </Routes>
-        </ConsoleLayout>
+        <InvocationProvider>
+            <SessionProvider>
+                <CodexProvider>
+                    <ScrollProvider>
+                        <PersonaProvider>
+                            <GPUProvider>
+                                <CohesionProvider>
+                                    <ConsoleLayout />
+                                </CohesionProvider>
+                            </GPUProvider>
+                        </PersonaProvider>
+                    </ScrollProvider>
+                </CodexProvider>
+            </SessionProvider>
+        </InvocationProvider>
     );
 }

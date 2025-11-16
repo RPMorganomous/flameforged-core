@@ -1,15 +1,19 @@
 import CommandCenter from "@/components/CommandCenter";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useCohesion } from "@/modules/cohesion/CohesionContext";
 
 export function ConsoleLayout() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { runTest, result } = useCohesion();
 
     const tabs = [
         { name: "Summon Triss", path: "/summon" },
         { name: "Codex Vault", path: "/codex" },
         { name: "Scrolls", path: "/scrolls" },
+        { name: "Scroll Injector", path: "/scroll-injector" },
         { name: "Persona Tools", path: "/persona" },
+        { name: "Session Archiver", path: "/session-archiver" },
         { name: "Settings", path: "/settings" },
         { name: "GPU Connect", path: "/gpu" },
     ];
@@ -19,16 +23,15 @@ export function ConsoleLayout() {
             {/* Wrapper for Sidebar and Main */}
             <div className="flex flex-1 min-h-0">
                 {/* Sidebar */}
-                <aside className="w-64 flex-shrink-0 flex flex-col p-6 gap-3 bg-zinc-950/70 shadow-[inset_-1px_0_4px_rgba(255,100,0,0.15)]">
+                <aside className="w-64 flex-shrink-0 flex flex-col p-6 gap-2 bg-zinc-950/70 shadow-[inset_-1px_0_4px_rgba(255,100,0,0.15)]">
                     {tabs.map(({ name, path }) => (
                         <button
                             key={name}
                             onClick={() => navigate(path)}
-                            style={{ marginBottom: "0.75rem" }}
-                            className={`w-full block px-4 py-3 rounded-md text-left transition-all duration-200 ${
+                            className={`w-full px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 shadow-md ${
                                 location.pathname === path
-                                    ? "bg-orange-500/20 text-orange-300 hover:bg-orange-500/25"
-                                    : "bg-zinc-950/60 text-zinc-300 hover:text-orange-400 hover:bg-zinc-900/80"
+                                    ? "bg-orange-600 text-white shadow-orange-500/50 hover:bg-orange-700"
+                                    : "bg-zinc-800/80 text-zinc-300 hover:text-white hover:bg-zinc-700 hover:shadow-zinc-600/50"
                             }`}
                         >
                             {name}
@@ -45,7 +48,7 @@ export function ConsoleLayout() {
 
                     {/* Content */}
                     <div
-                        className="flex-1 overflow-y-auto py-6 bg-gradient-to-b from-[#111] to-[#1a1a1a] text-zinc-200"
+                        className="flex-1 overflow-hidden py-6 bg-gradient-to-b from-[#111] to-[#1a1a1a] text-zinc-200"
                         style={{
                             paddingLeft: "4rem",
                             paddingRight: "2rem",
@@ -58,8 +61,19 @@ export function ConsoleLayout() {
             </div>
 
             {/* Footer */}
-            <footer className="flex-none bg-zinc-950/70 text-center text-sm py-2 text-zinc-500">
-                FlameForged Core v0.0.1 — System Online
+            <footer className="flex-none bg-zinc-950/70 text-center text-sm py-3 text-zinc-500">
+                <div className="flex items-center justify-center gap-4">
+                    <span>FlameForged Core v0.0.1 — System Online</span>
+                    <button
+                        onClick={runTest}
+                        className="px-4 py-1 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 rounded text-white text-xs font-semibold transition-all"
+                    >
+                        Run Cohesion Test
+                    </button>
+                    {result && (
+                        <span className="text-green-400 text-xs">✓ {result}</span>
+                    )}
+                </div>
             </footer>
         </div>
     );

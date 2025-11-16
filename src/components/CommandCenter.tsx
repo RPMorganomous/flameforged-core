@@ -1,4 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
+import CodexVaultPanel from "./codex/CodexVaultPanel";
+import SummonTriss from "@/modules/summon/SummonTriss";
+import SessionArchiver from "./core/SessionArchiver";
+import ScrollInjector from "./core/ScrollInjector";
+import PersonaTools from "@/modules/persona/PersonaTools";
+import GPUConnect from "@/modules/gpu/GPUConnect";
+
 interface CommandCenterProps {
     activeTab: string;
 }
@@ -7,19 +14,9 @@ export default function CommandCenter({ activeTab }: CommandCenterProps) {
     const renderContent = () => {
         switch (activeTab) {
             case "Summon Triss":
-                return (
-                    <>
-                        <h2 className="text-xl font-semibold text-orange-400">🔥 Summon Triss</h2>
-                        <p className="text-zinc-400">Triss awaits your command. Initialize summoning protocols.</p>
-                    </>
-                );
+                return <SummonTriss />;
             case "Codex Vault":
-                return (
-                    <>
-                        <h2 className="text-xl font-semibold text-orange-400">📜 Codex Vault</h2>
-                        <p className="text-zinc-400">Accessing sacred archives... Please wait.</p>
-                    </>
-                );
+                return <CodexVaultPanel />;
             case "Scrolls":
                 return (
                     <>
@@ -27,13 +24,12 @@ export default function CommandCenter({ activeTab }: CommandCenterProps) {
                         <p className="text-zinc-400">Review or inscribe new sacred texts here.</p>
                     </>
                 );
+            case "Scroll Injector":
+                return <ScrollInjector />;
             case "Persona Tools":
-                return (
-                    <>
-                        <h2 className="text-xl font-semibold text-orange-400">🧠 Persona Tools</h2>
-                        <p className="text-zinc-400">Configure, test, and deploy personality frameworks.</p>
-                    </>
-                );
+                return <PersonaTools />;
+            case "Session Archiver":
+                return <SessionArchiver />;
             case "Settings":
                 return (
                     <>
@@ -42,12 +38,7 @@ export default function CommandCenter({ activeTab }: CommandCenterProps) {
                     </>
                 );
             case "GPU Connect":
-                return (
-                    <>
-                        <h2 className="text-xl font-semibold text-orange-400">💻 GPU Connect</h2>
-                        <p className="text-zinc-400">Connect to the GPU nodes and monitor system performance.</p>
-                    </>
-                );
+                return <GPUConnect />;
             default:
                 return (
                     <>
@@ -67,7 +58,7 @@ export default function CommandCenter({ activeTab }: CommandCenterProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
-                    className="absolute inset-0 flex flex-col gap-2"
+                    className="relative flex flex-col gap-2 h-[90vh]"
                 >
                     {renderContent()}
                 </motion.div>
