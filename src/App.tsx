@@ -10,8 +10,8 @@ import { CohesionProvider } from "./modules/cohesion/CohesionContext";
 
 export default function App(): ReactElement {
     return (
-        <InvocationProvider>
-            <SessionProvider>
+        <SessionProvider>
+            <InvocationProvider>
                 <CodexProvider>
                     <ScrollProvider>
                         <PersonaProvider>
@@ -23,7 +23,7 @@ export default function App(): ReactElement {
                         </PersonaProvider>
                     </ScrollProvider>
                 </CodexProvider>
-            </SessionProvider>
-        </InvocationProvider>
+            </InvocationProvider>
+        </SessionProvider>
     );
 }
