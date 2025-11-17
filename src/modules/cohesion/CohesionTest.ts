@@ -4,6 +4,7 @@ import { lambdaValidateCodex, lambdaExtractScroll, lambdaGPUHandshake } from "..
 import { CloudConfig } from "@/modules/cloud/CloudConfig";
 import { runCloudLinkTest } from "@/modules/cloud/CloudLinkTest";
 import { invokeModel } from "@/modules/cloud/InvocationService";
+import { buildPrompt } from "@/modules/invocation/PromptBuilder";
 
 export const runCohesionTest = async (modules: {
   invocation: any;
@@ -28,12 +29,26 @@ export const runCohesionTest = async (modules: {
     cloudLinkResult.latencyMs
   );
 
+  // Prompt Builder Test
+  const testPrompt = buildPrompt({
+    userMessage: "Cohesion Test",
+    systemPrompt: "System Prompt",
+    memoryContext: {},
+    personaState: {},
+    codexMeta: {},
+    scrollMeta: {}
+  });
+  log("[Cohesion] Prompt Preview:", testPrompt.promptText);
+
   // Invocation Test
   const invokeResult = await invokeModel("ping");
   log("[Cohesion] Invocation Test:", invokeResult.ok ? "ok" : "failed",
       "| status:", invokeResult.status,
       "| latency:", invokeResult.latencyMs,
       "| output:", invokeResult.output);
+  log("[Cohesion] Invocation Output:", invokeResult.output);
+  log("[Cohesion] Invocation Tokens:", invokeResult.tokens ?? "—");
+  log("[Cohesion] Invocation Latency:", invokeResult.latencyMs);
 
   // Test 1: Invocation Engine
   log("[Cohesion] Testing Invocation Engine...");

@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { CloudConfig } from "@/modules/cloud/CloudConfig";
+import { ModelRoute } from "@/modules/cloud/CloudConfig";
 
 export default function Settings() {
     const [baseUrl, setBaseUrl] = useState<string>(CloudConfig.baseUrl || "");
+    const [modelRoute, setModelRoute] = useState<string>(ModelRoute);
 
     const handleBaseUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setBaseUrl(value);
         CloudConfig.baseUrl = value || null;
+    };
+
+    const handleModelRouteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setModelRoute(value);
+        (CloudConfig as any).ModelRoute = value || "/invoke";
     };
 
     const isActive = CloudConfig.baseUrl !== null && CloudConfig.baseUrl !== "";
@@ -33,6 +41,20 @@ export default function Settings() {
                         value={baseUrl}
                         onChange={handleBaseUrlChange}
                         placeholder="https://your-cloud-endpoint.com"
+                        className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded text-zinc-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="model-route" className="block text-zinc-400 text-sm mb-2">
+                        Model Invocation Route:
+                    </label>
+                    <input
+                        id="model-route"
+                        type="text"
+                        value={modelRoute}
+                        onChange={handleModelRouteChange}
+                        placeholder="/invoke"
                         className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded text-zinc-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
                 </div>

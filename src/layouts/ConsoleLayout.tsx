@@ -3,6 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useCohesion } from "@/modules/cohesion/CohesionContext";
 import { runCloudLinkTest } from "@/modules/cloud/CloudLinkTest";
 import { invokeModel } from "@/modules/cloud/InvocationService";
+import { CloudConfig } from "@/modules/cloud/CloudConfig";
+import { buildPrompt } from "@/modules/invocation/PromptBuilder";
+import { PromptDebugPanel } from "@/modules/invocation/PromptDebugPanel";
+import { SessionInspectorPanel } from "@/modules/sessions/SessionInspectorPanel";
 import { useState } from "react";
 
 export function ConsoleLayout() {
@@ -16,6 +20,10 @@ export function ConsoleLayout() {
     const [invokeMessage, setInvokeMessage] = useState("No invocation yet.");
     const [invokeLatency, setInvokeLatency] = useState<number | null>(null);
     const [invokeOutput, setInvokeOutput] = useState<string | null>(null);
+    const [invokeTokens, setInvokeTokens] = useState<number | null>(null);
+
+    const [debugPrompt, setDebugPrompt] = useState<any>(null);
+    const [showSessionHistory, setShowSessionHistory] = useState(false);
 
     const handleTestCloudLink = async () => {
         const result = await runCloudLinkTest();
@@ -28,7 +36,22 @@ export function ConsoleLayout() {
         setInvokeMessage(result.message + ` (status: ${result.status})`);
         setInvokeLatency(result.latencyMs);
         setInvokeOutput(result.output);
+        setInvokeTokens(result.tokens ?? null);
     };
+
+    const handleBuildPrompt = () => {
+        const constructed = buildPrompt({
+            userMessage: "Hello from user",
+            systemPrompt: "You are FlameForged Core test model.",
+            memoryContext: {},
+            codexMeta: {},
+            scrollMeta: {},
+            personaState: {}
+        });
+        setDebugPrompt(constructed);
+    };
+
+    const isCloudConfigured = CloudConfig.baseUrl !== null && CloudConfig.baseUrl !== "";
 
     const tabs = [
         { name: "Summon Triss", path: "/summon" },
@@ -113,16 +136,40 @@ export function ConsoleLayout() {
                     <div className="flex items-center justify-center gap-4">
                         <button
                             onClick={handleLiveInvoke}
-                            className="px-4 py-1 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 rounded text-white text-xs font-semibold transition-all"
+                            className={`px-4 py-1 rounded text-white text-xs font-semibold transition-all ${
+                                isCloudConfigured
+                                    ? "bg-green-600 hover:bg-green-700 active:bg-green-800"
+                                    : "bg-gray-600 cursor-not-allowed"
+                            }`}
                         >
                             Run Live Invocation Test
                         </button>
                         <div className="text-xs">
                             <span>Invocation Status: {invokeMessage}</span>
                             <span> • Latency: {invokeLatency ? Math.round(invokeLatency) + " ms" : "—"}</span>
-                            <span> • Output: {invokeOutput ?? "—"}</span>
+                            <span> • Tokens: {invokeTokens ?? "—"}</span>
+                        </div>
+                        <div className="text-xs max-w-md">
+                            <span className="text-zinc-400">Model Output: </span>
+                            <span className="text-zinc-200">{invokeOutput ?? "—"}</span>
                         </div>
                     </div>
+                    <div className="flex items-center justify-center gap-4">
+                        <button
+                            onClick={handleBuildPrompt}
+                            className="px-4 py-1 bg-yellow-600 hover:bg-yellow-700 active:bg-yellow-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            Build Prompt
+                        </button>
+                        <button
+                            onClick={() => setShowSessionHistory(!showSessionHistory)}
+                            className="px-4 py-1 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            View Session History
+                        </button>
+                    </div>
+                    {debugPrompt && <PromptDebugPanel prompt={debugPrompt} />}
+                    {showSessionHistory && <SessionInspectorPanel />}
                 </div>
             </footer>
         </div>
