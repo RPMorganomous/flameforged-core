@@ -1,8 +1,17 @@
+import React from "react";
+import GPUSyncStatus from "./gpu/GPUSyncStatus";
+
 export default function GpuConnect() {
     return (
-        <div className="space-y-2">
-            <h3 className="text-lg font-semibold text-orange-400">💻 GPU Connect</h3>
-            <p className="text-zinc-400">Preparing GPU interfaces...</p>
+        <div className="text-gray-200">
+            {/* Header Section */}
+            <div className="mb-6">
+                <h2 className="text-xl font-semibold text-orange-400 mb-2">💻 GPU Connect</h2>
+                <p className="text-zinc-400">Connect to GPU nodes and monitor system performance.</p>
+            </div>
+
+            {/* GPU Sync Status Panel */}
+            <GPUSyncStatus />
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { runDiagnostics } from "./PersonaDiagnostics";
 import type { DiagnosticResult } from "./personaTypes";
+import { cloudPost } from "@/utils/cloudPost";
 
 interface PersonaContextValue {
   run: () => DiagnosticResult;

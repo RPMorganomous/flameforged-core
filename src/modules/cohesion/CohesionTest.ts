@@ -1,6 +1,9 @@
 import { log } from "@/utils/log";
 import { wait } from "@/utils/wait";
 import { lambdaValidateCodex, lambdaExtractScroll, lambdaGPUHandshake } from "../lambda/LambdaService";
+import { CloudConfig } from "@/modules/cloud/CloudConfig";
+import { runCloudLinkTest } from "@/modules/cloud/CloudLinkTest";
+import { invokeModel } from "@/modules/cloud/InvocationService";
 
 export const runCohesionTest = async (modules: {
   invocation: any;
@@ -10,6 +13,27 @@ export const runCohesionTest = async (modules: {
   gpu: any;
 }) => {
   log("[Cohesion] Starting Phase III cohesion test...");
+
+  // Cloud Binding Check
+  log("[Cohesion] Cloud Binding:", CloudConfig.baseUrl ? "active" : "inactive");
+
+  // Cloud Link Test
+  const cloudLinkResult = await runCloudLinkTest();
+  log(
+    "[Cohesion] Cloud Link Test:",
+    cloudLinkResult.ok ? "ok" : "failed",
+    "| status:",
+    cloudLinkResult.status,
+    "| latency:",
+    cloudLinkResult.latencyMs
+  );
+
+  // Invocation Test
+  const invokeResult = await invokeModel("ping");
+  log("[Cohesion] Invocation Test:", invokeResult.ok ? "ok" : "failed",
+      "| status:", invokeResult.status,
+      "| latency:", invokeResult.latencyMs,
+      "| output:", invokeResult.output);
 
   // Test 1: Invocation Engine
   log("[Cohesion] Testing Invocation Engine...");
@@ -26,11 +50,23 @@ export const runCohesionTest = async (modules: {
   }
   await wait(100);
 
+  // Test 2b: Codex Cloud Summary
+  log("[Cohesion] Testing Codex Cloud Summary...");
+  await modules.codex.fetchCloudCodexSummary();
+  log("[Cohesion] Codex Cloud Status:", modules.codex.cloudStatus);
+  await wait(100);
+
   // Test 3: Scroll Pipeline
   log("[Cohesion] Testing Scroll Pipeline...");
   if (modules.scroll.scroll) {
     log("[Cohesion] Scroll loaded:", modules.scroll.scroll !== null);
   }
+  await wait(100);
+
+  // Test 3b: Scroll Cloud Summary
+  log("[Cohesion] Testing Scroll Cloud Summary...");
+  await modules.scroll.fetchCloudScrollSummary();
+  log("[Cohesion] Scroll Cloud Status:", modules.scroll.cloudStatus);
   await wait(100);
 
   // Test 4: Persona Diagnostics
@@ -41,6 +77,18 @@ export const runCohesionTest = async (modules: {
   // Test 5: GPU Handshake
   log("[Cohesion] Testing GPU Handshake...");
   await modules.gpu.handshake();
+  await wait(100);
+
+  // Test 5b: GPU Cloud Check
+  log("[Cohesion] Testing GPU Cloud Check...");
+  await modules.gpu.checkGpu();
+  log("[Cohesion] GPU Status:", modules.gpu.gpuStatus);
+  await wait(100);
+
+  // Test 5c: Cloud GPU Status
+  log("[Cohesion] Testing Cloud GPU Status...");
+  await modules.gpu.fetchCloudGPUStatus();
+  log("[Cohesion] Cloud GPU Status:", modules.gpu.cloudStatus);
   await wait(100);
 
   // Test 6: Lambda Services

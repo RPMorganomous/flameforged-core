@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { CodexEntry, CodexMetadata, CodexValidationResult } from './codexTypes';
-import { validateCodex, extractCodexMetadata } from './CodexProcessor';
+import { validateCodex, extractCodexMetadata, requestCloudCodexSummary } from './CodexProcessor';
 import { lambdaValidateCodex, lambdaSummarizeCodex } from '../lambda/LambdaService';
+import { cloudPost } from "@/utils/cloudPost";
 
 interface CodexContextValue {
   loadCodex: (file: File) => Promise<void>;
@@ -14,6 +15,11 @@ interface CodexContextValue {
   lambdaSummarize: () => Promise<void>;
   lambdaStatus: string | null;
   lambdaSummary: string | null;
+  fetchCloudCodexSummary: () => Promise<void>;
+  cloudSummary: string | null;
+  cloudTags: string[];
+  cloudWarnings: string[];
+  cloudStatus: "idle" | "checking" | "online" | "offline";
 }
 
 const CodexContext = createContext<CodexContextValue | undefined>(undefined);
@@ -36,6 +42,10 @@ export const CodexProvider: React.FC<CodexProviderProps> = ({ children }) => {
   const [validationResult, setValidationResult] = useState<CodexValidationResult | null>(null);
   const [lambdaStatus, setLambdaStatus] = useState<string | null>(null);
   const [lambdaSummary, setLambdaSummary] = useState<string | null>(null);
+  const [cloudSummary, setCloudSummary] = useState<string | null>(null);
+  const [cloudTags, setCloudTags] = useState<string[]>([]);
+  const [cloudWarnings, setCloudWarnings] = useState<string[]>([]);
+  const [cloudStatus, setCloudStatus] = useState<"idle" | "checking" | "online" | "offline">("idle");
 
   const loadCodex = async (file: File): Promise<void> => {
     try {
@@ -86,6 +96,33 @@ export const CodexProvider: React.FC<CodexProviderProps> = ({ children }) => {
     }
   };
 
+  const fetchCloudCodexSummary = async (): Promise<void> => {
+    setCloudStatus("checking");
+
+    if (!entries) {
+      setCloudStatus("offline");
+      setCloudSummary(null);
+      setCloudTags([]);
+      setCloudWarnings([]);
+      return;
+    }
+
+    const res = await requestCloudCodexSummary(entries);
+
+    if (!res.ok) {
+      setCloudStatus("offline");
+      setCloudSummary(res.summary);
+      setCloudTags(res.tags);
+      setCloudWarnings(res.warnings);
+      return;
+    }
+
+    setCloudStatus("online");
+    setCloudSummary(res.summary);
+    setCloudTags(res.tags);
+    setCloudWarnings(res.warnings);
+  };
+
   const value: CodexContextValue = {
     loadCodex,
     validate,
@@ -96,6 +133,11 @@ export const CodexProvider: React.FC<CodexProviderProps> = ({ children }) => {
     lambdaSummarize,
     lambdaStatus,
     lambdaSummary,
+    fetchCloudCodexSummary,
+    cloudSummary,
+    cloudTags,
+    cloudWarnings,
+    cloudStatus,
   };
 
   return (

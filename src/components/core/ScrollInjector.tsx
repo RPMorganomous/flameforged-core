@@ -4,7 +4,18 @@ import { useScroll } from "@/modules/scroll/ScrollContext";
 const ScrollInjector: React.FC = () => {
   const [scrollContent, setScrollContent] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
-  const { loadScroll, scroll, error, lambdaExtract, lambdaScrollStatus } = useScroll();
+  const {
+    loadScroll,
+    scroll,
+    error,
+    lambdaExtract,
+    lambdaScrollStatus,
+    fetchCloudScrollSummary,
+    cloudSummary,
+    cloudTags,
+    cloudWarnings,
+    cloudStatus
+  } = useScroll();
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -128,6 +139,12 @@ const ScrollInjector: React.FC = () => {
         >
           Test Lambda
         </button>
+        <button
+          onClick={fetchCloudScrollSummary}
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-lg text-white font-semibold shadow-lg transition-all"
+        >
+          Fetch Cloud Scroll Summary
+        </button>
       </div>
 
       {lambdaScrollStatus && (
@@ -135,6 +152,57 @@ const ScrollInjector: React.FC = () => {
           <p className="text-orange-400 text-sm">Lambda Response: {lambdaScrollStatus}</p>
         </div>
       )}
+
+      {/* Cloud Scroll Summary Display */}
+      <div className="mb-6 p-4 bg-gray-900 rounded-lg border border-gray-700">
+        <h3 className="text-lg font-semibold text-orange-400 mb-2">Cloud Scroll Summary</h3>
+
+        <div className="mb-3">
+          <span className="text-zinc-400 text-sm">Cloud Status: </span>
+          <span className={`text-sm font-semibold ${
+            cloudStatus === "online" ? "text-green-400" :
+            cloudStatus === "offline" ? "text-red-400" :
+            cloudStatus === "checking" ? "text-yellow-400" :
+            "text-zinc-400"
+          }`}>
+            {cloudStatus === "online" && "✓ Online"}
+            {cloudStatus === "offline" && "✗ Offline"}
+            {cloudStatus === "checking" && "⟳ Checking..."}
+            {cloudStatus === "idle" && "Idle"}
+          </span>
+        </div>
+
+        {cloudSummary && (
+          <div className="mb-3">
+            <p className="text-zinc-400 text-sm mb-1">Cloud Summary:</p>
+            <p className="text-zinc-300 text-sm">{cloudSummary}</p>
+          </div>
+        )}
+
+        {cloudTags.length > 0 && (
+          <div className="mb-3">
+            <p className="text-zinc-400 text-sm mb-1">Tags:</p>
+            <div className="flex flex-wrap gap-2">
+              {cloudTags.map((tag, i) => (
+                <span key={i} className="px-2 py-1 bg-blue-600/20 text-blue-400 text-xs rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {cloudWarnings.length > 0 && (
+          <div className="mb-3">
+            <p className="text-zinc-400 text-sm mb-1">Warnings:</p>
+            <ul className="ml-4 text-yellow-400 text-sm">
+              {cloudWarnings.map((warning, i) => (
+                <li key={i}>⚠️ {warning}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
 
       {/* Scrollable Preview Box */}
       <div className="bg-gray-900 rounded-lg border border-gray-700 p-4 min-h-[300px] max-h-[500px] overflow-y-auto">

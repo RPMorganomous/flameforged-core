@@ -1,5 +1,8 @@
 import type { CodexEntry, CodexMetadata, CodexValidationResult } from "./codexTypes";
 import { validateCodexEntry } from "./codexSchema";
+import { cloudPost } from "@/utils/cloudPost";
+import type { CodexSummaryRequest, CodexSummaryResponse } from "@/modules/cloud";
+import { CloudConfig } from "@/modules/cloud/CloudConfig";
 
 export const validateCodex = (entries: CodexEntry[]): CodexValidationResult => {
   const errors: string[] = [];
@@ -28,4 +31,36 @@ export const extractCodexMetadata = (entries: CodexEntry[]): CodexMetadata => {
     totalEntries: entries.length,
     types
   };
+};
+
+export const requestCloudCodexSummary = async (codex: any): Promise<CodexSummaryResponse> => {
+  // Check if CloudConfig.baseUrl is set
+  if (!CloudConfig.baseUrl) {
+    return {
+      ok: false,
+      summary: "Cloud unreachable — baseUrl not set.",
+      tags: [],
+      warnings: []
+    };
+  }
+
+  const path = "/codex-summary";
+
+  const payload: CodexSummaryRequest = {
+    codex
+  };
+
+  const res = await cloudPost(path, payload);
+
+  // Cloud unreachable → return offline summary shape
+  if (!res || res.ok === false) {
+    return {
+      ok: false,
+      summary: "Cloud unreachable — running offline.",
+      tags: [],
+      warnings: []
+    };
+  }
+
+  return res as CodexSummaryResponse;
 };

@@ -7,6 +7,7 @@ import { pushStep } from './InvocationPipeline';
 import type { RitualAction } from './InvocationActions';
 import { useSession } from '../sessions/SessionContext';
 import { wait } from '@/utils/wait';
+import { cloudPost } from "@/utils/cloudPost";
 
 interface InvocationContextValue {
   invoke: (payload: string) => Promise<void>;

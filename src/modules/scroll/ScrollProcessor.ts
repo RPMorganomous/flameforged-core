@@ -1,4 +1,7 @@
 import type { ScrollMetadata, ScrollSection, ScrollObject } from './scrollTypes';
+import { cloudPost } from "@/utils/cloudPost";
+import type { ScrollAnalysisRequest, ScrollAnalysisResponse } from "@/modules/cloud";
+import { CloudConfig } from "@/modules/cloud/CloudConfig";
 
 export const extractMetadata = (raw: string): ScrollMetadata => {
   const lines = raw.split("\n");
@@ -50,4 +53,39 @@ export const processScroll = (raw: string): ScrollObject => {
     metadata: extractMetadata(raw),
     sections: extractSections(raw)
   };
+};
+
+export const requestCloudScrollSummary = async (
+  scrollText: string
+): Promise<ScrollAnalysisResponse> => {
+  // Check if CloudConfig.baseUrl is set
+  if (!CloudConfig.baseUrl) {
+    return {
+      ok: false,
+      title: "",
+      sections: [],
+      summary: "Cloud unreachable — baseUrl not set.",
+      tags: []
+    };
+  }
+
+  const path = "/scroll-summary";
+
+  const payload: ScrollAnalysisRequest = {
+    scroll: scrollText
+  };
+
+  const res = await cloudPost(path, payload);
+
+  if (!res || res.ok === false) {
+    return {
+      ok: false,
+      title: "",
+      sections: [],
+      summary: "Cloud unreachable — running offline.",
+      tags: []
+    };
+  }
+
+  return res as ScrollAnalysisResponse;
 };

@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ScrollObject } from './scrollTypes';
-import { processScroll } from './ScrollProcessor';
+import { processScroll, requestCloudScrollSummary } from './ScrollProcessor';
 import { lambdaExtractScroll } from '../lambda/LambdaService';
+import { cloudPost } from "@/utils/cloudPost";
 
 interface ScrollContextValue {
   loadScroll: (file: File) => Promise<void>;
@@ -10,6 +11,11 @@ interface ScrollContextValue {
   error: string | null;
   lambdaExtract: () => Promise<void>;
   lambdaScrollStatus: string | null;
+  fetchCloudScrollSummary: () => Promise<void>;
+  cloudSummary: string | null;
+  cloudTags: string[];
+  cloudWarnings: string[];
+  cloudStatus: "idle" | "checking" | "online" | "offline";
 }
 
 const ScrollContext = createContext<ScrollContextValue | undefined>(undefined);
@@ -30,6 +36,10 @@ export const ScrollProvider: React.FC<ScrollProviderProps> = ({ children }) => {
   const [scroll, setScroll] = useState<ScrollObject | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lambdaScrollStatus, setLambdaScrollStatus] = useState<string | null>(null);
+  const [cloudSummary, setCloudSummary] = useState<string | null>(null);
+  const [cloudTags, setCloudTags] = useState<string[]>([]);
+  const [cloudWarnings, setCloudWarnings] = useState<string[]>([]);
+  const [cloudStatus, setCloudStatus] = useState<"idle" | "checking" | "online" | "offline">("idle");
 
   const loadScroll = async (file: File): Promise<void> => {
     try {
@@ -57,12 +67,44 @@ export const ScrollProvider: React.FC<ScrollProviderProps> = ({ children }) => {
     }
   };
 
+  const fetchCloudScrollSummary = async (): Promise<void> => {
+    setCloudStatus("checking");
+
+    if (!scroll?.raw) {
+      setCloudStatus("offline");
+      setCloudSummary(null);
+      setCloudTags([]);
+      setCloudWarnings([]);
+      return;
+    }
+
+    const res = await requestCloudScrollSummary(scroll.raw);
+
+    if (!res.ok) {
+      setCloudStatus("offline");
+      setCloudSummary(res.summary);
+      setCloudTags(res.tags);
+      setCloudWarnings([]);
+      return;
+    }
+
+    setCloudStatus("online");
+    setCloudSummary(res.summary);
+    setCloudTags(res.tags);
+    setCloudWarnings([]);
+  };
+
   const value: ScrollContextValue = {
     loadScroll,
     scroll,
     error,
     lambdaExtract,
     lambdaScrollStatus,
+    fetchCloudScrollSummary,
+    cloudSummary,
+    cloudTags,
+    cloudWarnings,
+    cloudStatus,
   };
 
   return (

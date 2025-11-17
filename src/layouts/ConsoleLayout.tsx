@@ -1,11 +1,34 @@
 import CommandCenter from "@/components/CommandCenter";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCohesion } from "@/modules/cohesion/CohesionContext";
+import { runCloudLinkTest } from "@/modules/cloud/CloudLinkTest";
+import { invokeModel } from "@/modules/cloud/InvocationService";
+import { useState } from "react";
 
 export function ConsoleLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const { runTest, result } = useCohesion();
+
+    const [cloudLinkMessage, setCloudLinkMessage] = useState<string>("Cloud link not tested.");
+    const [cloudLinkLatency, setCloudLinkLatency] = useState<number | null>(null);
+
+    const [invokeMessage, setInvokeMessage] = useState("No invocation yet.");
+    const [invokeLatency, setInvokeLatency] = useState<number | null>(null);
+    const [invokeOutput, setInvokeOutput] = useState<string | null>(null);
+
+    const handleTestCloudLink = async () => {
+        const result = await runCloudLinkTest();
+        setCloudLinkMessage(result.message + ` (status: ${result.status})`);
+        setCloudLinkLatency(result.latencyMs);
+    };
+
+    const handleLiveInvoke = async () => {
+        const result = await invokeModel("ping");
+        setInvokeMessage(result.message + ` (status: ${result.status})`);
+        setInvokeLatency(result.latencyMs);
+        setInvokeOutput(result.output);
+    };
 
     const tabs = [
         { name: "Summon Triss", path: "/summon" },
@@ -61,18 +84,45 @@ export function ConsoleLayout() {
             </div>
 
             {/* Footer */}
-            <footer className="flex-none bg-zinc-950/70 text-center text-sm py-3 text-zinc-500">
-                <div className="flex items-center justify-center gap-4">
-                    <span>FlameForged Core v0.0.1 — System Online</span>
-                    <button
-                        onClick={runTest}
-                        className="px-4 py-1 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 rounded text-white text-xs font-semibold transition-all"
-                    >
-                        Run Cohesion Test
-                    </button>
-                    {result && (
-                        <span className="text-green-400 text-xs">✓ {result}</span>
-                    )}
+            <footer className="flex-none bg-zinc-950/70 text-center text-sm py-4 text-zinc-500">
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-center gap-4">
+                        <span>FlameForged Core v0.0.1 — System Online</span>
+                        <button
+                            onClick={runTest}
+                            className="px-4 py-1 bg-orange-600 hover:bg-orange-700 active:bg-orange-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            Run Cohesion Test
+                        </button>
+                        {result && (
+                            <span className="text-green-400 text-xs">✓ {result}</span>
+                        )}
+                        <button
+                            onClick={handleTestCloudLink}
+                            className="px-4 py-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            Test Cloud Link
+                        </button>
+                        <div className="text-xs">
+                            <span>{cloudLinkMessage}</span>
+                            {cloudLinkLatency !== null && (
+                                <span> • Latency: {Math.round(cloudLinkLatency)} ms</span>
+                            )}
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-4">
+                        <button
+                            onClick={handleLiveInvoke}
+                            className="px-4 py-1 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            Run Live Invocation Test
+                        </button>
+                        <div className="text-xs">
+                            <span>Invocation Status: {invokeMessage}</span>
+                            <span> • Latency: {invokeLatency ? Math.round(invokeLatency) + " ms" : "—"}</span>
+                            <span> • Output: {invokeOutput ?? "—"}</span>
+                        </div>
+                    </div>
                 </div>
             </footer>
         </div>
