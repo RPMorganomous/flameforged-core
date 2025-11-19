@@ -3,6 +3,7 @@ import { CloudConfig } from "@/modules/cloud/CloudConfig";
 import { ModelRoute } from "@/modules/cloud/CloudConfig";
 import { CloudBindingPanel } from "@/modules/cloud/CloudBindingPanel";
 import { CloudGpuStatusPanel } from "@/modules/cloud/CloudGpuStatusPanel";
+import { InvocationTracePanel } from "@/modules/memory/InvocationTracePanel";
 
 export default function Settings() {
     const [baseUrl, setBaseUrl] = useState<string>(CloudConfig.baseUrl || "");
@@ -74,6 +75,9 @@ export default function Settings() {
 
             {/* Cloud GPU Status Panel */}
             <CloudGpuStatusPanel />
+
+            {/* Invocation Trace Panel */}
+            <InvocationTracePanel />
         </div>
     );
 }
