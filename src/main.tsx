@@ -4,6 +4,7 @@ import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import "@/modules/cloud";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

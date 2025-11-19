@@ -8,7 +8,12 @@ import { v4 as uuidv4 } from "uuid";
 let currentSession: SessionLog | null = null;
 
 export const SessionState = {
-  invocations: [] as InvocationRecord[]
+  invocations: [] as InvocationRecord[],
+  lastCloudInvocationId: null as string | null,
+  lastCloudModelName: null as string | null,
+  lastCloudLatencyMs: null as number | null,
+  lastCloudOnline: false as boolean,
+  lastCloudStateDelta: null as any | null
 };
 
 export const startNewSession = (): SessionLog => {
@@ -41,6 +46,13 @@ export const archiveInvocation = (record: Omit<InvocationRecord, "id">) => {
   };
 
   SessionState.invocations.push(fullRecord);
+
+  // Update SessionState with latest cloud metadata (Phase X M28)
+  SessionState.lastCloudInvocationId = record.cloudInvocationId ?? null;
+  SessionState.lastCloudModelName = record.cloudModelName ?? null;
+  SessionState.lastCloudLatencyMs = record.cloudLatencyMs ?? null;
+  SessionState.lastCloudOnline = record.cloudOnline ?? false;
+  SessionState.lastCloudStateDelta = record.cloudStateDelta ?? null;
 };
 
 export const getSession = (): SessionLog | null => currentSession;

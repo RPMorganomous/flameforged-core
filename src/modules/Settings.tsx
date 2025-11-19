@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { CloudConfig } from "@/modules/cloud/CloudConfig";
 import { ModelRoute } from "@/modules/cloud/CloudConfig";
+import { CloudBindingPanel } from "@/modules/cloud/CloudBindingPanel";
+import { CloudGpuStatusPanel } from "@/modules/cloud/CloudGpuStatusPanel";
 
 export default function Settings() {
     const [baseUrl, setBaseUrl] = useState<string>(CloudConfig.baseUrl || "");
@@ -9,7 +11,7 @@ export default function Settings() {
     const handleBaseUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setBaseUrl(value);
-        CloudConfig.baseUrl = value || null;
+        CloudConfig.baseUrl = value || "";
     };
 
     const handleModelRouteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +20,7 @@ export default function Settings() {
         (CloudConfig as any).ModelRoute = value || "/invoke";
     };
 
-    const isActive = CloudConfig.baseUrl !== null && CloudConfig.baseUrl !== "";
+    const isActive = CloudConfig.baseUrl !== "";
 
     return (
         <div className="text-gray-200">
@@ -66,6 +68,12 @@ export default function Settings() {
                     </span>
                 </div>
             </div>
+
+            {/* Cloud Binding Panel */}
+            <CloudBindingPanel />
+
+            {/* Cloud GPU Status Panel */}
+            <CloudGpuStatusPanel />
         </div>
     );
 }

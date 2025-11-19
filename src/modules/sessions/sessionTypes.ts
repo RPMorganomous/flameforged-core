@@ -25,6 +25,13 @@ export interface InvocationRecord {
   adaptiveMode: "gentle" | "strict" | null;
   adaptiveIntensity: number | null;
   reinforcementRecommendations: string[] | null;
+  cloudOnline?: boolean;              // Phase X M24: cloud connectivity status
+  latency?: number;                   // Phase X M24: alias for latencyMs
+  modelName?: string | null;          // Phase X M24: model name from cloud
+  cloudInvocationId?: string | null;  // Phase X M28: cloud invocation ID
+  cloudModelName?: string | null;     // Phase X M28: cloud model name
+  cloudLatencyMs?: number | null;     // Phase X M28: cloud latency
+  cloudStateDelta?: any | null;       // Phase X M28: cloud state delta
 }
 
 export interface SessionLog {
