@@ -49,6 +49,8 @@ export const runCohesionTest = async (modules: {
   log("[Cohesion] Invocation Output:", invokeResult.output);
   log("[Cohesion] Invocation Tokens:", invokeResult.tokens ?? "—");
   log("[Cohesion] Invocation Latency:", invokeResult.latencyMs);
+  log("[Cohesion] Coherence Score:", invokeResult.coherence ?? "—");
+  log("[Cohesion] Drift Flags:", invokeResult.coherenceReport?.driftFlags ?? "—");
 
   // Test 1: Invocation Engine
   log("[Cohesion] Testing Invocation Engine...");

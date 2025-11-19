@@ -1,362 +1,217 @@
-# Phase VI — M12: Session Archiver + Response Capture ✅ COMPLETE
-**Assigned to Claude**
-**Date:** 2025-11-16
-**Status:** ✅ Complete
+# Phase X — M23: Cloud Request Layer (Skeleton + Safety + Logging)
+**Assigned to Claude Sonnet**
+**Date:** 2025-11-19  
+**Status:** 🚧 IN PROGRESS  
+**Phase:** Cloud Ascension Layer — Step 2 of Phase X
+
+This milestone creates the **Cloud Request Layer**, the network spine the FlameForged Core will use to communicate with the Temple (Lambda endpoint).
+
+Modify ONLY the files listed below.  
+Report ALL changes when finished.  
+Do NOT add additional files unless explicitly requested.
 
 ---
 
-## 🎯 Execution Report
+# 🎯 Objective  
+Create a resilient, typed, fault-tolerant Cloud Request Layer with:
 
-**M12 — Session Archiver + Response Capture** has been successfully completed. FlameForged Core now has a complete Session Memory Stream that captures every invocation with full context. This is the final milestone of Phase VI and establishes the foundation for Phase VII (Persona Coherence Engine).
+- `cloudPost(path, payload)`
+- Optional `cloudGet(path)`
+- Online/offline detection
+- Timeout handling
+- JSON parse fallback
+- Error normalization
+- Structured logging hooks
+- Zero coupling to persona logic
 
-### ✅ Changes Implemented
+This is the **transport layer only** — no invocation forwarding yet.
 
-**1. sessionTypes.ts** — `src/modules/sessions/sessionTypes.ts`
-- Created InvocationRecord interface with 11 fields:
-  - id: UUID for unique identification
-  - timestamp: Date.now() for chronological ordering
-  - prompt: Full prompt text sent to model
-  - output: Model response text
-  - latencyMs: Round-trip time measurement
-  - status: HTTP status code
-  - tokens: Token count from response
-  - personaState: Snapshot of personality state
-  - codexMeta: Knowledge base context
-  - scrollMeta: Document context
-  - memoryContext: Session history context
-  - cloudBaseUrl: Endpoint URL for traceability
-- Extended SessionLog interface with invocations array
+---
 
-**2. SessionArchiver.ts** — `src/modules/sessions/SessionArchiver.ts`
-- Imported uuid v4 for ID generation
-- Imported InvocationRecord type
-- Created SessionState object with invocations array
-- Implemented archiveInvocation() function:
-  - Accepts record without ID
-  - Generates UUID automatically
-  - Pushes to SessionState.invocations array
-  - Provides persistent storage for all invocations
-- Updated startNewSession() to initialize invocations array
+# 📁 Part 1 — Create CloudRequest.ts
+**File:** `src/modules/cloud/CloudRequest.ts` (NEW FILE)
 
-**3. InvocationService.ts** — `src/modules/cloud/InvocationService.ts`
-- Imported archiveInvocation from SessionArchiver
-- Added archiveInvocation() calls in all return paths:
-  - Success path: archives prompt, output, tokens, latency, status
-  - Failure path: archives prompt, null output, error status
-  - Retry success: archives with retry flag in message
-  - Retry failure: archives final failure state
-- Captures CloudConfig.baseUrl for endpoint tracking
-- Stores empty context objects for persona/codex/scroll/memory (ready for Phase VII)
-- Maintains full invocation history across all scenarios
+Create this exact file:
 
-**4. SessionInspectorPanel.tsx** — `src/modules/sessions/SessionInspectorPanel.tsx`
-- Created React component for session history visualization
-- Imports SessionState from SessionArchiver
-- Displays structured invocation list with:
-  - Invocation ID (UUID)
-  - Timestamp (ISO format)
-  - Status code
-  - Latency in milliseconds
-  - Token count
-  - Full prompt text
-  - Full output text
-- Shows placeholder when no invocations recorded
-- Uses monospace font for code readability
-- Separates records with horizontal rules
+```ts
+import { CloudConfig } from "./CloudConfig";
 
-**5. ConsoleLayout.tsx** — `src/layouts/ConsoleLayout.tsx`
-- Imported SessionInspectorPanel
-- Added showSessionHistory state field
-- Created "View Session History" button (indigo theme, fourth row)
-- Toggle behavior shows/hides session inspector
-- Conditionally renders SessionInspectorPanel below other panels
-- Provides immediate access to invocation history
+export interface CloudRequestResult<T> {
+  ok: boolean;
+  status: number;
+  data?: T;
+  error?: string;
+  latencyMs: number;
+}
 
-### ✅ Validation Results
+const TIMEOUT_MS = 20000;
 
-- ✅ SessionState stores all InvocationRecords with UUIDs
-- ✅ archiveInvocation() creates fully structured records
-- ✅ invokeModel() archives on every path (success, failure, retry)
-- ✅ All metadata captured: prompt, output, latency, status, tokens
-- ✅ Context snapshots included: persona, codex, scroll, memory
-- ✅ Cloud endpoint tracked for each invocation
-- ✅ SessionInspectorPanel displays invocation list with full details
-- ✅ Footer contains "View Session History" toggle button
-- ✅ Cohesion Test remains functional
-- ✅ TypeScript compilation: No errors (`npx tsc --noEmit --skipLibCheck`)
-- ✅ App loads normally
+export async function cloudPost<T>(
+  path: string,
+  payload: any
+): Promise<CloudRequestResult<T>> {
+  const start = performance.now();
 
-### 🔥 System Status
+  if (!CloudConfig.baseUrl) {
+    return {
+      ok: false,
+      status: 0,
+      error: "NO_BASE_URL",
+      latencyMs: 0
+    };
+  }
 
-**Session Memory Stream:** Operational
-**Invocation Capture:** Complete (all paths)
-**Context Tracking:** Enabled (persona, codex, scroll, memory, cloud)
-**History Inspector:** Available in footer
-**Storage:** In-memory persistent across session
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
-The system now has a complete Session Memory Stream that:
-- Captures every invocation automatically
-- Stores full prompt and output text
-- Tracks all metadata (latency, status, tokens)
-- Preserves context snapshots for future analysis
-- Records cloud endpoint for each call
-- Provides browsable history via UI inspector
-- Maintains chronological ordering with timestamps
-- Assigns unique IDs for invocation tracking
-- Works across all invocation scenarios (success, failure, retry)
-- Establishes foundation for Phase VII persona coherence
+  try {
+    const res = await fetch(`${CloudConfig.baseUrl}${path}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
 
-**Invocation Record Structure:**
-```typescript
-{
-  id: "uuid-v4",
-  timestamp: 1700000000000,
-  prompt: "full prompt text...",
-  output: "model response...",
-  latencyMs: 234,
-  status: 200,
-  tokens: 42,
-  personaState: {},
-  codexMeta: {},
-  scrollMeta: {},
-  memoryContext: {},
-  cloudBaseUrl: "https://endpoint.com"
+    clearTimeout(timeout);
+
+    const latencyMs = performance.now() - start;
+
+    let data: any = null;
+    try {
+      data = await res.json();
+    } catch {
+      /* ignore bad JSON */
+    }
+
+    return {
+      ok: res.ok,
+      status: res.status,
+      data: data ?? undefined,
+      error: res.ok ? undefined : `HTTP_${res.status}`,
+      latencyMs
+    };
+  } catch (err: any) {
+    clearTimeout(timeout);
+
+    return {
+      ok: false,
+      status: 0,
+      error: err?.name === "AbortError" ? "TIMEOUT" : "NETWORK_ERROR",
+      latencyMs: performance.now() - start
+    };
+  }
 }
 ```
 
-**Next Steps:** Phase VI complete! Ready for Phase VII — Persona Coherence Engine, which will leverage this session history for intelligent context management and personality consistency.
-
 ---
 
-### 🐛 Bug Fixes (Post-Implementation)
+# 📁 Part 2 — Create CloudConfig.ts
+**File:** `src/modules/cloud/CloudConfig.ts` (NEW FILE)
 
-After initial implementation, two issues were identified and resolved:
-
-**Issue 1: Missing UUID Package**
-- **Error:** `Failed to resolve import "uuid" from "src/modules/sessions/SessionArchiver.ts"`
-- **Cause:** SessionArchiver.ts imported `uuid` but the package wasn't installed
-- **Fix:**
-  - Installed `uuid` package: `npm install uuid`
-  - Installed type definitions: `npm install --save-dev @types/uuid`
-- **Result:** Import resolved successfully, app loads without errors
-
-**Issue 2: Unused React Import (TypeScript Warning)**
-- **Error:** `TS6133: 'React' is declared but its value is never read`
-- **Affected Files:**
-  - `src/modules/sessions/SessionInspectorPanel.tsx`
-  - `src/modules/invocation/PromptDebugPanel.tsx`
-- **Cause:** Modern React (17+) uses new JSX transform, doesn't require React import
-- **Fix:** Removed `import React from "react";` from both files
-- **Result:** TypeScript warnings eliminated, code cleaner
-
-Both issues resolved. App fully operational with M12 complete.
-
----
-
-**End of M12 Execution Report**
-
----
-
-# Original Instructions (Archived)
-
-# 📁 Part 1 — Extend sessionTypes.ts  
-**File:** `src/modules/sessions/sessionTypes.ts`
-
-Add a new interface:
+Create this exact file:
 
 ```ts
-export interface InvocationRecord {
-  id: string;              // uuid
-  timestamp: number;       // Date.now()
-  prompt: string;          // builtPrompt.promptText
-  output: string | null;   // model output text
-  latencyMs: number | null;
-  status: number | null;
-  tokens: number | null;
-  personaState: any;
-  codexMeta: any;
-  scrollMeta: any;
-  memoryContext: any;
-  cloudBaseUrl: string | null;
-}
-```
-
-Add this to your `SessionLog` or `SessionState` structure:
-
-```ts
-invocations: InvocationRecord[];
-```
-
-If the file does not exist, create it.
-
----
-
-# 📁 Part 2 — Update SessionArchiver.ts  
-**File:** `src/modules/sessions/SessionArchiver.ts`
-
-Add:
-
-```ts
-import { v4 as uuidv4 } from "uuid";
-import type { InvocationRecord } from "./sessionTypes";
-import { CloudConfig } from "@/modules/cloud/CloudConfig";
-```
-
-Add the new exported function:
-
-```ts
-export const archiveInvocation = (record: Omit<InvocationRecord, "id">) => {
-  const fullRecord: InvocationRecord = {
-    id: uuidv4(),
-    ...record
-  };
-
-  SessionState.invocations.push(fullRecord);
-};
-```
-
-Ensure `SessionState.invocations` exists; if not, initialize it:
-
-```ts
-export const SessionState = {
-  invocations: [] as InvocationRecord[]
+export const CloudConfig = {
+  baseUrl: "",        // Set by UI
+  online: false,      // Updated after every call
+  lastLatency: 0      // ms
 };
 ```
 
 ---
 
-# 📁 Part 3 — Modify invokeModel() to archive results  
-**File:** `src/modules/cloud/InvocationService.ts`
+# 📁 Part 3 — Add index barrel
+**File:** `src/modules/cloud/index.ts` (NEW FILE)
 
-Import:
+Create this exact file:
 
 ```ts
-import { archiveInvocation } from "@/modules/sessions/SessionArchiver";
-import { CloudConfig } from "@/modules/cloud/CloudConfig";
+export * from "./CloudRequest";
+export * from "./CloudConfig";
 ```
 
-After receiving the response (success OR failure), add:
+---
+
+# 📁 Part 4 — Add Logging Hook
+**File:** `src/modules/logging/CloudLog.ts` (NEW FILE)
+
+Create this exact file:
 
 ```ts
-archiveInvocation({
-  timestamp: Date.now(),
-  prompt: payload.input ?? "",
-  output: normalizedOutput,
-  latencyMs: end - start,
-  status: res?.status ?? null,
-  tokens: res?.data?.tokens ?? null,
-  personaState: req?.personaState ?? {},
-  codexMeta: req?.codexMeta ?? {},
-  scrollMeta: req?.scrollMeta ?? {},
-  memoryContext: req?.memoryContext ?? {},
-  cloudBaseUrl: CloudConfig.baseUrl
+export const CloudLog = {
+  events: [] as any[],
+
+  record(event: any) {
+    this.events.push({
+      ...event,
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+```
+
+---
+
+# 📁 Part 5 — Integrate Logging into CloudRequest
+Return to `src/modules/cloud/CloudRequest.ts` and modify the return blocks to add:
+
+```ts
+import { CloudLog } from "@/modules/logging/CloudLog";
+import { CloudConfig } from "./CloudConfig";
+```
+
+Before each return statement add:
+
+```ts
+CloudLog.record({
+  path,
+  ok: <computed ok>,
+  status: <computed status>,
+  latencyMs,
+  error: <computed error or undefined>
 });
 ```
 
-Make sure `normalizedOutput` matches the existing code’s output extraction.
+Also update CloudConfig after each call:
 
-Do NOT break existing return behavior.
+```ts
+CloudConfig.online = result.ok;
+CloudConfig.lastLatency = result.latencyMs;
+```
 
 ---
 
-# 📁 Part 4 — Create SessionInspectorPanel.tsx  
-**File:** `src/modules/sessions/SessionInspectorPanel.tsx`
+# 📁 Part 6 — Cloud Module Wiring Check
+**File:** `src/main.ts` (or equivalent bootstrap entry)
 
 Add:
 
-```tsx
-import React from "react";
-import { SessionState } from "./SessionArchiver";
-
-export const SessionInspectorPanel = () => {
-  return (
-    <div style={{ whiteSpace: "pre-wrap", fontFamily: "monospace" }}>
-      <h2>Session Invocation History</h2>
-      <hr />
-      {SessionState.invocations.length === 0 && (
-        <div>No invocations recorded yet.</div>
-      )}
-      {SessionState.invocations.map((rec) => (
-        <div key={rec.id} style={{ marginBottom: "2rem" }}>
-          <strong>Invocation ID:</strong> {rec.id}{"\n"}
-          <strong>Timestamp:</strong> {new Date(rec.timestamp).toISOString()}{"\n"}
-          <strong>Status:</strong> {rec.status}\n
-          <strong>Latency:</strong> {rec.latencyMs}ms\n
-          <strong>Tokens:</strong> {rec.tokens ?? "—"}\n
-          <strong>Prompt:</strong>\n{rec.prompt}\n
-          <strong>Output:</strong>\n{rec.output ?? "—"}\n
-          <hr />
-        </div>
-      ))}
-    </div>
-  );
-};
-```
-
----
-
-# 📁 Part 5 — Add “View Session History” button to footer  
-Modify the footer (ConsoleLayout) to:
-
-1. Add state:
-
 ```ts
-const [showSessionHistory, setShowSessionHistory] = useState(false);
+import "@/modules/cloud";
 ```
 
-2. Add button:
-
-```
-[View Session History]
-```
-
-3. Toggle on click:
-
-```ts
-onClick={() => setShowSessionHistory(!showSessionHistory)}
-```
-
-4. Below buttons:
-
-```tsx
-{showSessionHistory && <SessionInspectorPanel />}
-```
+Place this with other module bootstraps.
 
 ---
 
 # 📋 Validation Checklist  
+M23 is COMPLETE when:
 
-M12 is complete when:
-
-- SessionState stores all InvocationRecords
-- archiveInvocation() creates structured records
-- invokeModel() archives:
-  - prompt
-  - output
-  - latency
-  - status
-  - tokens
-  - persona/codex/scroll/memory context
-  - cloud endpoint
-- SessionInspectorPanel displays invocation list
-- Footer contains “View Session History” toggle
-- Cohesion Test remains functional
-- No TypeScript errors
-- App loads normally
+- CloudRequest.ts exists and compiles
+- CloudConfig.ts exists and compiles
+- Barrel file exports both modules
+- Logging hook captures all cloud traffic
+- Online/offline state updates after each request
+- Timeout logic works
+- JSON parse fallback works
+- Network and timeout errors normalized
+- No persona or invocation logic included
+- System builds with zero new TypeScript errors
 
 ---
 
-# 🎉 Expected Result After M12  
-The Forge gains a **persistent Session Memory Stream**:
-
-- Every invocation stored  
-- Fully inspectable  
-- Debuggable  
-- Persisted for future persona coherence analysis  
-- Ready for Phase VII  
-
-This completes the Awakening Layer and opens the gate to the first layer of intelligence refinement.
-
----
-
-**End of M12 Instructions**
+# 📝 M23 Execution Report  
+Claude: Append your execution report BELOW this section.  
+Do NOT modify any content above this line.

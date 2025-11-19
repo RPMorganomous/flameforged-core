@@ -17,6 +17,14 @@ export interface InvocationRecord {
   scrollMeta: any;
   memoryContext: any;
   cloudBaseUrl: string | null;
+  coherence: number | null;           // main score
+  coherenceReport: any | null;        // full structured report
+  driftSeverity: number | null;
+  driftRecommendations: string[] | null;
+  adaptiveReinforcement: string | null;
+  adaptiveMode: "gentle" | "strict" | null;
+  adaptiveIntensity: number | null;
+  reinforcementRecommendations: string[] | null;
 }
 
 export interface SessionLog {

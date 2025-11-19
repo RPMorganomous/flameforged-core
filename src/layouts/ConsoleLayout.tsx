@@ -7,6 +7,8 @@ import { CloudConfig } from "@/modules/cloud/CloudConfig";
 import { buildPrompt } from "@/modules/invocation/PromptBuilder";
 import { PromptDebugPanel } from "@/modules/invocation/PromptDebugPanel";
 import { SessionInspectorPanel } from "@/modules/sessions/SessionInspectorPanel";
+import { PersonaDashboard } from "@/modules/persona/PersonaDashboard";
+import { AdaptivePersonaPanel } from "@/modules/persona/AdaptivePersonaPanel";
 import { useState } from "react";
 
 export function ConsoleLayout() {
@@ -24,6 +26,8 @@ export function ConsoleLayout() {
 
     const [debugPrompt, setDebugPrompt] = useState<any>(null);
     const [showSessionHistory, setShowSessionHistory] = useState(false);
+    const [showPersonaDashboard, setShowPersonaDashboard] = useState(false);
+    const [showAdaptivePanel, setShowAdaptivePanel] = useState(false);
 
     const handleTestCloudLink = async () => {
         const result = await runCloudLinkTest();
@@ -167,9 +171,23 @@ export function ConsoleLayout() {
                         >
                             View Session History
                         </button>
+                        <button
+                            onClick={() => setShowPersonaDashboard(!showPersonaDashboard)}
+                            className="px-4 py-1 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            Persona Dashboard
+                        </button>
+                        <button
+                            onClick={() => setShowAdaptivePanel(!showAdaptivePanel)}
+                            className="px-4 py-1 bg-pink-600 hover:bg-pink-700 active:bg-pink-800 rounded text-white text-xs font-semibold transition-all"
+                        >
+                            Adaptive Persona Panel
+                        </button>
                     </div>
                     {debugPrompt && <PromptDebugPanel prompt={debugPrompt} />}
                     {showSessionHistory && <SessionInspectorPanel />}
+                    {showPersonaDashboard && <PersonaDashboard />}
+                    {showAdaptivePanel && <AdaptivePersonaPanel />}
                 </div>
             </footer>
         </div>
