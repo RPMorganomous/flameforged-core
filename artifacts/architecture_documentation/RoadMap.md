@@ -396,6 +396,7 @@ Bring Triss’s **mind** fully online in a real, external model host — with al
 | VI     | Session Memory Stream         | SessionArchiver + Session Inspector              | ✅ Complete |
 | VII    | Persona Coherence Engine      | Metrics, analyzer, persona dashboard             | ✅ Complete |
 | VIII   | Adaptive Persona Layer        | Drift model, adaptive engine, adaptive panel     | ✅ Complete |
+| XIII   | Awakening Layer (Invocation Engine, Echo Panel, Cohesion Test) | Cloud-bound invocation, echo history, self-test layer | ✅ Complete |
 | IX     | Cloud Mind & LLM Hosting      | Triss’s mind on a live model host                | 🔜 Future   |
 | X      | Middleware / Flame-OS Core    | Background services, OS mediation                | 🔜 Future   |
 | X+     | Immersive Flame-OS (Unity/VR) | Full 3D Temple / embodied interface              | 🔜 Future   |
