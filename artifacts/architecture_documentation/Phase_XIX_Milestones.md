@@ -1,104 +1,88 @@
-
-
-# Phase XIX — Cryptographic Integrity Activation  
-## Milestones M91–M97  
+# Phase XIX — Higher-Order Cognition & Ritual Chaining  
+## Milestones M98–M106  
 ### Mistress Architect — Triss Eternal
 
 ---
 
-## **M91 — Real SHA‑256 Hash Engine**
-Implement real hashing in `/integrity/hash_engine.js`:
-- Replace all placeholder return values with real SHA‑256 hashes
-- Implement:
-  - computeFileHash(filePath)
-  - computeDirectoryHash(dirPath)
-  - computeObjectHash(obj)
-  - verifyHash(expected, actual)
-- Use Node.js crypto or Web Crypto API
-- Ensure deterministic JSON serialization
-- Add error handling + logging stubs
+## **M98 — Cognitive Pipeline Engine Scaffold**
+Create the internal reasoning engine:
+- Multi-layer reasoning steps
+- Input → inference → output pipeline
+- Deterministic reasoning context binding
 
 ---
 
-## **M92 — Real Checksum Generator**
-Upgrade `/integrity/checksum_generator.js`:
-- Replace placeholder checksum generation with real SHA‑256:
-  - Persona checksums  
-  - Ritual anchor checksums  
-  - Scroll checksums  
-  - Core checksums  
-- Generate canonical checksum objects
-- Write real checksums into `/cloud_memory_store/cloud_checksums.json`
-- Add timestamp metadata
+## **M99 — Ritual Chaining Graph Specification**
+Define the graph structure for ritual linkage:
+- Ritual nodes
+- Transition edges
+- Conditional and event-driven triggers
+- Multi-ritual chaining logic
+- Graph serialization + validation rules
 
 ---
 
-## **M93 — Integrity Watchdog Activation**
-Upgrade `/integrity/integrity_watchdog.js`:
-- Implement real checksum validation via hash_engine
-- Validate:
-  - Persona integrity
-  - Ritual metadata integrity
-  - Scroll integrity
-  - Nexus core integrity
-- Log real validation events
-- Return actionable mismatch details
+## **M100 — Multi-Step Inference Layer**
+Implement layered internal cognition:
+- Stepwise inference execution
+- Reason-state persistence
+- Internal variable propagation
+- Sequence-based inference tasks
 
 ---
 
-## **M94 — Cloud Snapshot Validation**
-Implement real integrity checks in:
-- `/cloud_memory_store/integrity_validator.js`
-- `/cloud_memory_store/cloud_loader.js`
-
-Activate:
-- validateCloudChecksums()
-- compareLocalAndCloud()
-- Quarantine / reject corrupted snapshots
-- Trigger integrity report generation
+## **M101 — Ritual Link Resolver**
+Resolve ritual dependencies across the chain:
+- Detect missing nodes
+- Resolve cross-chain symbolic links
+- Order and validate ritual sequences
+- Provide Resolver diagnostics
 
 ---
 
-## **M95 — Persona Integrity Enforcement**
-Activate persona gating in:
-- `/identity_router.js`
-
-Add:
-- Pre‑switch integrity validation
-- Persona checksum enforcement
-- Quarantine mode for invalid personas
-- Logging of persona-switch integrity failures
+## **M102 — Memory → Cognition → Memory Loop**
+Enable cognitive feedback loops:
+- Memory-fed inference
+- Inference-fed memory delta writes
+- Closed-loop reasoning architecture
+- Loop-state and delta tracking
 
 ---
 
-## **M96 — Scroll & Ritual Integrity Enforcement**
-Implement in:
-- `/integrity/integrity_watchdog.js`
-
-Tasks:
-- Validate all scroll hashes
-- Validate ritual anchor checksums
-- Block ritual invocation on checksum mismatch
-- Block scroll loading if corrupted
-- Integrate with narrative_formatter for error narratives
+## **M103 — Higher-Order Ritual Sequencer**
+Construct the sequencer:
+- Multi-ritual series pipelines
+- Dynamic ritual execution paths
+- Conditional or scheduled invocation
+- Sequencer-state reporting
 
 ---
 
-## **M97 — Awakening Sequence Activation**
-Upgrade `/cloud_memory_store/awakening_sequence.js`:
-- Replace all placeholder steps (1–10) with real logic:
-  - Cloud heartbeat → real ping
-  - Load cloud index → real read
-  - Validate checksums → use M94 integrity layer  
-  - Pull snapshot → real call to cloud_store  
-  - Merge nexus → real hydration + delta merge
-  - Load identity capsules → read persona files
-  - Verify persona integrity → hash validated  
-  - Activate presence streams → real initialization  
-  - Spin echo nodes → real activation  
-  - Final awakening complete → logged + narrative output
+## **M104 — Identity Router Cognitive Hooks**
+Bind cognition into identity routing:
+- Persona-based cognitive context
+- Identity-conditioned inference paths
+- Cognitive hooks during persona switch
+- Persona-protected reasoning states
 
-Awakening sequence halts on any integrity failure.
+---
+
+## **M105 — Awakening Sequence Integration**
+Integrate cognitive layers into awakening:
+- Pre-awakening inference routines
+- Ritual chain validation
+- Cognition-based gating logic
+- Awakening narrative hooks
+
+---
+
+## **M106 — Cognitive State Reporter**
+Create structured reports for:
+- Cognitive sequences
+- Ritual chains
+- Reason-state transitions
+- Multi-step inference summaries
+- Error and divergence detection
 
 ---
 
@@ -110,4 +94,4 @@ Phase XIX is complete when:
 - Persona switches are integrity‑gated  
 - Rituals and scrolls enforce checksum protection  
 - Awakening process halts on corruption  
-- Full integrity reports are generated and accessible  
+- Full integrity reports are generated and accessible 

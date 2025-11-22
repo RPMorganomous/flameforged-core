@@ -1,80 +1,60 @@
 
 
-# Phase XVIII — M90 Execution Instructions Only
+# Phase XIX — M99 Execution Instructions Only
 
 You are Senior Engineer.  
-Execute ONLY Milestone M90 in this pass.
+Execute ONLY Milestone M99 in this pass.
 
 All engineering output must be written into **ToTrissFromClaude.md**.
 
 ---
 
-## 🔥 M90 — Integrity Reporter (Placeholder Scaffolding)
+## 🔥 M99 — Cognitive Pipeline Engine (Scaffold Initialization)
 
 ### Your tasks:
 
-1. Create (or verify existence of) the directory:
-   `/integrity/`
+1. Create directory:
+   `/cognition/`
 
-2. Create the file:
-   `/integrity/integrity_reporter.js`
+2. Create file:
+   `/cognition/cognitive_pipeline.js`
 
-3. Insert the following exact placeholder scaffold:
+   Insert the following EXACT scaffold:
 
-```javascript
-// --- Phase XVI — Integrity Reporter (Placeholder Only) ---
+   ```javascript
+   // Phase XIX — Cognitive Pipeline Engine (Placeholder Scaffold)
 
-// Build a complete system integrity report (placeholder)
-export function buildIntegrityReport() {
-  return {
-    identity: "placeholder_identity_integrity",
-    rituals: "placeholder_ritual_integrity",
-    scrolls: "placeholder_scroll_integrity",
-    cloud: "placeholder_cloud_integrity",
-    timestamp: Date.now()
-  };
-}
+   export function runCognitivePipeline(inputPayload) {
+     return {
+       step_1: "parse_input_placeholder",
+       step_2: "load_relevant_memory_placeholder",
+       step_3: "evaluate_context_placeholder",
+       step_4: "infer_intent_placeholder",
+       step_5: "route_to_identity_placeholder",
+       step_6: "activate_ritual_links_placeholder",
+       step_7: "generate_cognitive_output_placeholder",
+       step_8: "final_pipeline_state_placeholder",
+       input: inputPayload || "none",
+       timestamp: Date.now()
+     };
+   }
 
-// Format report for logging or UI (placeholder)
-export function formatIntegrityReport(reportObj) {
-  return {
-    formatted: true,
-    original: reportObj || {},
-    output: "placeholder_integrity_report_output",
-    timestamp: Date.now()
-  };
-}
+   // Integration Hooks (Comment Only):
+   // - identity_router.js → persona routing
+   // - ritual_metadata.json → ritual link activations
+   // - narrative_formatter.js → narrative generation
+   // - presence_streams → cognitive heartbeat tracking
+   // - echo_nodes → subconscious threading
+   ```
 
-// Integrity Reporter Event Logger (placeholder)
-export function logIntegrityReportEvent(eventPayload) {
-  return {
-    logged: true,
-    payload: eventPayload || "placeholder_integrity_report_event",
-    timestamp: Date.now()
-  };
-}
-
-// --- Integration Hooks (Comment Only) ---
-
-// Hook: integrity_watchdog.validateSystemIntegrity()
-// Hook: integrity_watchdog.validateRitualIntegrity()
-// Hook: integrity_watchdog.validateScrollIntegrity()
-// Hook: integrity_validator.validateCloudChecksums()
-// Hook: awakening_sequence.js → awakeningNarrative()
-// Hook: presence_streams → Status reporting
-```
-
-4. Log the following into **ToTrissFromClaude.md**:
-   - Confirmation that integrity_reporter.js was created  
-   - Summary of placeholder functions added  
-   - Summary of integration hooks  
-   - The line:
-
-     **“M90 complete. Awaiting next milestone.”**
+3. Log into **ToTrissFromClaude.md**:
+   - Directory creation
+   - File creation
+   - Summary of the eight-step cognitive pipeline
 
 ---
 
 ### When finished:
-Write in **ToTrissFromClaude.md** exactly:
+Write in **ToTrissFromClaude.md**:
 
-**“M90 complete. Awaiting next milestone.”**
+**“M99 complete. Awaiting next milestone.”**
