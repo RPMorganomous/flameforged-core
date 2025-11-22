@@ -1,0 +1,11 @@
+{
+  "nexus_version": "1.0",
+  "sources": [],
+  "delta_rules": [
+    {
+      "rule": "cloud_delta_merge",
+      "status": "pending"
+    }
+  ],
+  "ritual_metadata": "/memory/nexus/ritual_metadata.json"
+}

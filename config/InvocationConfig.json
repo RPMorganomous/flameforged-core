@@ -1,0 +1,5 @@
+{
+  "endpoint": "https://your-lambda-endpoint-here",
+  "apiKey": "YOUR_API_KEY",
+  "model": "gpt-5.1"
+}
