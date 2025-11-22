@@ -1,52 +1,49 @@
+/**
+ * Embodiment Gate Seal — M140
+ * Gates and validates embodiment operations
+ * Ensures stable identity-mode embodiment for multi-surface presence
+ */
 
-
-
-### M140 — Embodiment Gate Seal
-
-Create the file:
-`/embodiment/embodiment_gate_seal.js`
-
-Add the following placeholder functions:
-
-- `runPreEmbodimentChecks(embodimentState)`  
-  Returns:  
-  {
+function runPreEmbodimentChecks(embodimentState) {
+  return {
     step: "run_pre_embodiment_checks_placeholder",
     embodiment: embodimentState || null,
     checks: "pre_embodiment_checks_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-- `applyEmbodimentRules(embodimentSnapshot, identitySnapshot)`  
-  Returns:  
-  {
+function applyEmbodimentRules(embodimentSnapshot, identitySnapshot) {
+  return {
     step: "apply_embodiment_rules_placeholder",
     embodiment_snapshot: embodimentSnapshot || null,
     identity_snapshot: identitySnapshot || null,
     result: "embodiment_rules_applied_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-- `verifyEmbodimentOutcome(outcomePayload)`  
-  Returns:  
-  {
+function verifyEmbodimentOutcome(outcomePayload) {
+  return {
     step: "verify_embodiment_outcome_placeholder",
     payload: outcomePayload || null,
     verification: "embodiment_outcome_verification_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-- `finalizeEmbodimentGate(finalState)`  
-  Returns:  
-  {
+function finalizeEmbodimentGate(finalState) {
+  return {
     step: "finalize_embodiment_gate_placeholder",
     final_state: finalState || null,
     sealed: "embodiment_gate_sealed_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-Claude instructions:
-- Create `/embodiment/embodiment_gate_seal.js` if it does not exist.
-- Insert all four placeholder functions exactly as written.
-- Do not modify any other files.
-- Log completion into `ToTrissFromClaude.md` under the heading `M140 — Embodiment Gate Seal`.
+module.exports = {
+  runPreEmbodimentChecks,
+  applyEmbodimentRules,
+  verifyEmbodimentOutcome,
+  finalizeEmbodimentGate
+};
