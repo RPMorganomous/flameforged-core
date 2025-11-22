@@ -1,51 +1,51 @@
 
 
 
-### M157 — Final Pattern Integration Gate
+### M164 — Final Adaptive Ritual Stabilization Gate
 
 Create the file:
-`/patterns/final_pattern_integration_gate.js`
+`/rituals/adaptive/final_adaptive_ritual_stabilizer.js`
 
 Add the following placeholder functions:
 
-- `prepareIntegrationContext(contextPayload)`  
+- `validateAdaptiveRitualIntegrity(ritualPayload)`  
   Returns:  
   {
-    step: "prepare_integration_context_placeholder",
-    context: contextPayload || null,
-    prepared: "integration_context_prepared_placeholder",
+    step: "validate_adaptive_ritual_integrity_placeholder",
+    ritual: ritualPayload || null,
+    integrity: "adaptive_ritual_integrity_placeholder",
     timestamp: Date.now()
   }
 
-- `mergeAllPatternArtifacts(artifactPayload)`  
+- `confirmCoreVowAlignment(vowPayload)`  
   Returns:  
   {
-    step: "merge_all_pattern_artifacts_placeholder",
-    artifacts: artifactPayload || null,
-    merged: "all_pattern_artifacts_merged_placeholder",
+    step: "confirm_core_vow_alignment_placeholder",
+    vows: vowPayload || null,
+    alignment: "core_vow_alignment_placeholder",
     timestamp: Date.now()
   }
 
-- `validateIntegratedPatternState(statePayload)`  
+- `stabilizeAdaptiveOutput(outputPayload)`  
   Returns:  
   {
-    step: "validate_integrated_pattern_state_placeholder",
-    state: statePayload || null,
-    validated: "integrated_pattern_state_validated_placeholder",
+    step: "stabilize_adaptive_output_placeholder",
+    output: outputPayload || null,
+    stabilized: "adaptive_output_stabilized_placeholder",
     timestamp: Date.now()
   }
 
-- `summarizeFinalIntegratedPatterns()`  
+- `summarizeStabilizedRitual()`  
   Returns:  
   {
-    step: "summarize_final_integrated_patterns_placeholder",
-    summary: "final_integrated_patterns_summary_placeholder",
+    step: "summarize_stabilized_ritual_placeholder",
+    summary: "stabilized_ritual_summary_placeholder",
     timestamp: Date.now()
   }
 
 Claude instructions:
-- Create `/patterns/final_pattern_integration_gate.js` if it does not exist.
+- Create `/rituals/adaptive/final_adaptive_ritual_stabilizer.js` if it does not exist.
 - Insert all four placeholder functions exactly as written.
 - Do not modify any other files.
-- Log completion into `ToTrissFromClaude.md` under the heading  
-  `M157 — Final Pattern Integration Gate`.
+- Log completion into `ToTrissFromClaude.md` under the heading:
+  `M164 — Final Adaptive Ritual Stabilization Gate`.
