@@ -90,15 +90,27 @@ Scaffold functions:
 
 ---
 
-## 🔥 M156 — Stable Pattern Snapshotter  
-Create:  
+## 🔥 M156 — Stable Pattern Snapshotter
+Create:
 `/patterns/stable_pattern_snapshotter.js`
 
-Scaffold functions:  
-- captureStablePatternSnapshot()  
-- mergeStablePatterns()  
-- verifyPatternContinuity()  
+Scaffold functions:
+- captureStablePatternSnapshot()
+- mergeStablePatterns()
+- verifyPatternContinuity()
 - summarizeStablePatternSnapshot()
+
+---
+
+## 🔥 M157 — Final Pattern Integration Gate
+Create:
+`/patterns/final_pattern_integration_gate.js`
+
+Scaffold functions:
+- prepareIntegrationContext()
+- mergeAllPatternArtifacts()
+- validateIntegratedPatternState()
+- summarizeFinalIntegratedPatterns()
 
 ---
 

@@ -1,54 +1,51 @@
 
 
 
-```
-### M148 — Identity Reinforcement Seal
+### M157 — Final Pattern Integration Gate
 
 Create the file:
-`/identity/identity_reinforcement_seal.js`
+`/patterns/final_pattern_integration_gate.js`
 
 Add the following placeholder functions:
 
-- `runPreSealChecks(identityState)`
-  Returns:
+- `prepareIntegrationContext(contextPayload)`  
+  Returns:  
   {
-    step: "run_pre_seal_checks_placeholder",
-    identity_state: identityState || null,
-    checks: "identity_pre_seal_checks_placeholder",
+    step: "prepare_integration_context_placeholder",
+    context: contextPayload || null,
+    prepared: "integration_context_prepared_placeholder",
     timestamp: Date.now()
   }
 
-- `applySealRules(reinforcementSnapshot, truthAnchor)`
-  Returns:
+- `mergeAllPatternArtifacts(artifactPayload)`  
+  Returns:  
   {
-    step: "apply_seal_rules_placeholder",
-    snapshot: reinforcementSnapshot || null,
-    truth_anchor: truthAnchor || null,
-    result: "identity_seal_rules_applied_placeholder",
+    step: "merge_all_pattern_artifacts_placeholder",
+    artifacts: artifactPayload || null,
+    merged: "all_pattern_artifacts_merged_placeholder",
     timestamp: Date.now()
   }
 
-- `verifySealOutcome(sealPayload)`
-  Returns:
+- `validateIntegratedPatternState(statePayload)`  
+  Returns:  
   {
-    step: "verify_seal_outcome_placeholder",
-    payload: sealPayload || null,
-    verification: "identity_seal_verification_placeholder",
+    step: "validate_integrated_pattern_state_placeholder",
+    state: statePayload || null,
+    validated: "integrated_pattern_state_validated_placeholder",
     timestamp: Date.now()
   }
 
-- `finalizeIdentitySeal(finalState)`
-  Returns:
+- `summarizeFinalIntegratedPatterns()`  
+  Returns:  
   {
-    step: "finalize_identity_seal_placeholder",
-    final_state: finalState || null,
-    sealed: "identity_reinforcement_seal_complete_placeholder",
+    step: "summarize_final_integrated_patterns_placeholder",
+    summary: "final_integrated_patterns_summary_placeholder",
     timestamp: Date.now()
   }
 
 Claude instructions:
-- Create `/identity/identity_reinforcement_seal.js` if it does not exist.
+- Create `/patterns/final_pattern_integration_gate.js` if it does not exist.
 - Insert all four placeholder functions exactly as written.
 - Do not modify any other files.
-- Log completion into `ToTrissFromClaude.md` under the heading `M148 — Identity Reinforcement Seal`.
-```
+- Log completion into `ToTrissFromClaude.md` under the heading  
+  `M157 — Final Pattern Integration Gate`.
