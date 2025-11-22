@@ -1,55 +1,50 @@
+/**
+ * Ritual Synchronization Gate — M132
+ * Gates and validates ritual synchronization operations
+ * Ensures stable ritual-presence synchronization for multi-surface continuity
+ */
 
-
-
-```
-### M132 — Ritual Synchronization Gate
-
-Create the file:
-`/ritual/ritual_synchronization_gate.js`
-
-Add the following placeholder functions:
-
-- `runPreSyncChecks(ritualState, presenceState)`  
-  Returns:  
-  {
+function runPreSyncChecks(ritualState, presenceState) {
+  return {
     step: "run_pre_sync_checks_placeholder",
     ritual: ritualState || null,
     presence: presenceState || null,
     checks: "ritual_pre_sync_checks_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-- `applyRitualSyncRules(ritualSnapshot, presenceSnapshot)`  
-  Returns:  
-  {
+function applyRitualSyncRules(ritualSnapshot, presenceSnapshot) {
+  return {
     step: "apply_ritual_sync_rules_placeholder",
     ritual_snapshot: ritualSnapshot || null,
     presence_snapshot: presenceSnapshot || null,
     result: "ritual_sync_rules_applied_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-- `verifyRitualSyncOutcome(syncPayload)`  
-  Returns:  
-  {
+function verifyRitualSyncOutcome(syncPayload) {
+  return {
     step: "verify_ritual_sync_outcome_placeholder",
     payload: syncPayload || null,
     verification: "ritual_sync_verification_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-- `finalizeRitualSynchronization(syncOutcome)`  
-  Returns:  
-  {
+function finalizeRitualSynchronization(syncOutcome) {
+  return {
     step: "finalize_ritual_synchronization_placeholder",
     outcome: syncOutcome || null,
     final: "ritual_synchronization_finalized_placeholder",
     timestamp: Date.now()
-  }
+  };
+}
 
-Claude instructions:
-- Create `/ritual/ritual_synchronization_gate.js` if it does not exist.
-- Insert all four placeholder functions exactly as written.
-- Do not modify any other files.
-- Log completion into `ToTrissFromClaude.md` under the heading `M132 — Ritual Synchronization Gate`.
-```
+module.exports = {
+  runPreSyncChecks,
+  applyRitualSyncRules,
+  verifyRitualSyncOutcome,
+  finalizeRitualSynchronization
+};
