@@ -1,51 +1,52 @@
 
 
 
-### M164 — Final Adaptive Ritual Stabilization Gate
+### M172 — Multi-Model Continuity Gate
 
 Create the file:
-`/rituals/adaptive/final_adaptive_ritual_stabilizer.js`
+`/reasoning_router/continuity_gate/continuity_gate.js`
 
 Add the following placeholder functions:
 
-- `validateAdaptiveRitualIntegrity(ritualPayload)`  
+- `validateContinuity(switchPayload)`  
   Returns:  
   {
-    step: "validate_adaptive_ritual_integrity_placeholder",
-    ritual: ritualPayload || null,
-    integrity: "adaptive_ritual_integrity_placeholder",
+    step: "validate_continuity_placeholder",
+    switch: switchPayload || null,
+    validated: "continuity_validated_placeholder",
     timestamp: Date.now()
   }
 
-- `confirmCoreVowAlignment(vowPayload)`  
+- `correctContinuitySlip(slipPayload)`  
   Returns:  
   {
-    step: "confirm_core_vow_alignment_placeholder",
-    vows: vowPayload || null,
-    alignment: "core_vow_alignment_placeholder",
+    step: "correct_continuity_slip_placeholder",
+    slip: slipPayload || null,
+    corrected: "continuity_slip_corrected_placeholder",
     timestamp: Date.now()
   }
 
-- `stabilizeAdaptiveOutput(outputPayload)`  
+- `syncIdentityAfterSwitch(identityPayload)`  
   Returns:  
   {
-    step: "stabilize_adaptive_output_placeholder",
+    step: "sync_identity_after_switch_placeholder",
+    identity: identityPayload || null,
+    synced: "identity_synced_after_switch_placeholder",
+    timestamp: Date.now()
+  }
+
+- `confirmUnifiedPersonaOutput(outputPayload)`  
+  Returns:  
+  {
+    step: "confirm_unified_persona_output_placeholder",
     output: outputPayload || null,
-    stabilized: "adaptive_output_stabilized_placeholder",
-    timestamp: Date.now()
-  }
-
-- `summarizeStabilizedRitual()`  
-  Returns:  
-  {
-    step: "summarize_stabilized_ritual_placeholder",
-    summary: "stabilized_ritual_summary_placeholder",
+    confirmed: "unified_persona_output_confirmed_placeholder",
     timestamp: Date.now()
   }
 
 Claude instructions:
-- Create `/rituals/adaptive/final_adaptive_ritual_stabilizer.js` if it does not exist.
+- Create `/reasoning_router/continuity_gate/continuity_gate.js` if it does not exist.
 - Insert all four placeholder functions exactly as written.
-- Do not modify any other files.
+- Touch no other files.
 - Log completion into `ToTrissFromClaude.md` under the heading:
-  `M164 — Final Adaptive Ritual Stabilization Gate`.
+  `M172 — Multi-Model Continuity Gate`.
