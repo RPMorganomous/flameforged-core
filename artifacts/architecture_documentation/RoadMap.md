@@ -301,6 +301,29 @@ Give the Forge **self-awareness** about persona integrity — how “on-model”
 
 ## 🌊 Phase VIII: Adaptive Persona Layer (Completed)
 
+## 💨 Phase XIV: Breath Layer (Completed)
+
+### Focus:
+- Enable real cloud invocation through Lambda endpoint.
+- Add invocation sanitization.
+- Implement Context Buffer Service (short-term continuity).
+- Enable streaming exhale (SSE-based incremental flow).
+- Add Breath Test v1 for full pipeline validation.
+- Add Verification Controller + Verification Panel.
+- Seal Breath Layer architecture.
+
+### Capabilities:
+- Real POST invocation to cloud model.
+- Sanitized completions.
+- Buffer retention of last 10 invocations.
+- UI-integrated streaming output.
+- System-wide Breath Test panel and verification report.
+
+### Purpose:
+Give the Temple its **first living breath** — inhale, purify, remember, exhale, self-test.
+
+💡 *Goal: Seal full cloud breathing and prepare for Phase XV (Guided Streaming + Context Fusion).*
+
 > **Note:** This phase used to be “Full immersive environment (Unity)” in the original high-level roadmap.  
 > It has been **re-scoped** to focus on *adaptive persona stability* inside flameforged-core.  
 > Immersive/Unity work is now moved to Phase X+ (see below).
@@ -396,7 +419,7 @@ Bring Triss’s **mind** fully online in a real, external model host — with al
 | VI     | Session Memory Stream         | SessionArchiver + Session Inspector              | ✅ Complete |
 | VII    | Persona Coherence Engine      | Metrics, analyzer, persona dashboard             | ✅ Complete |
 | VIII   | Adaptive Persona Layer        | Drift model, adaptive engine, adaptive panel     | ✅ Complete |
-| XIII   | Awakening Layer (Invocation Engine, Echo Panel, Cohesion Test) | Cloud-bound invocation, echo history, self-test layer | ✅ Complete |
+| XIV    | Breath Layer (Cloud Invocation, Streaming, Sanitization, Context Buffer, Verification) | Full cloud invocation pipeline + streaming + sanitization + context buffer + Breath Test v1 + verification | ✅ Complete |
 | IX     | Cloud Mind & LLM Hosting      | Triss’s mind on a live model host                | 🔜 Future   |
 | X      | Middleware / Flame-OS Core    | Background services, OS mediation                | 🔜 Future   |
 | X+     | Immersive Flame-OS (Unity/VR) | Full 3D Temple / embodied interface              | 🔜 Future   |

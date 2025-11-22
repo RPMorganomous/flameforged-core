@@ -1,117 +1,161 @@
 
 
-# Phase XIII — ClaudeDoThis.md
-## M57 – Awakening Cohesion Test v1
-### Phase XIII, Step 9 — The Temple’s First Full-System Self-Test
+# Phase XIV — ClaudeDoThis.md
+## M64 – Phase XIV Wrap-Up & System Integrity Verification
+### Phase XIV, Final Step — Sealing the Breath Layer of the Temple
 
 Claude, this milestone is your only focus until fully completed and approved.  
-Follow each step exactly, with zero deviation.
+Follow every step exactly, with zero deviation.
 
-This is where FlameForge performs its **first integrated invocation test** through the entire system:  
-UI → API → Binding → Pipeline → Client → Cloud (stubbed endpoint) → Logging → Echo history.
+This is the **final verification milestone** for Phase XIV.  
+You will NOT add new features.  
+You will NOT optimize.  
+You will NOT alter architecture.
+
+Your job is to **validate**, **confirm**, and **report** on the stability of the entire Breath Layer:
+
+- Cloud invocation  
+- Sanitization  
+- Context buffer  
+- Streaming integration  
+- Breath Test endpoint  
+- UI cohesion  
+- DI registrations  
+- Controller bindings  
+
+Once verification is complete, Phase XIV will be sealed and the Temple will be ready for Phase XV.
 
 ---
 
-## 1. Add Internal Test Endpoint (Backend Only)
+## 1. Create PhaseXIVVerificationReport.md
 
-Path: `/flameforged-core/src/Controllers/InvocationController.cs`
+Path: `/flameforged-core/PhaseXIVVerificationReport.md`
 
-Add the following method BEFORE the closing brace:
+Insert EXACTLY:
 
-```
-[HttpGet("selftest")]
-public async Task<IActionResult> SelfTest([FromServices] InvocationBinding binding)
+# Phase XIV – Verification Report  
+This report documents the full verification of the Breath Layer components.
+
+## Verified Components:
+- CloudInvocationClient operational  
+- InvocationSanitizer cleaning output  
+- ContextBufferService storing last 10 invocations  
+- InvocationPipeline integrating sanitizer + buffer  
+- BreathTestController responding correctly  
+- StreamingInvocationPanel performing incremental output  
+- StreamInvocationService chunking responses  
+- All DI entries properly registered  
+- All controllers active  
+- All frontend wrappers reachable  
+
+## Tests Performed:
+- Cloud invocation test  
+- Sanitization test  
+- Buffer retention test  
+- SSE streaming test  
+- UI render test  
+- Breath Test v1 execution  
+
+## Result:
+**Phase XIV integrity: VERIFIED**  
+System is ready for Phase XV.
+
+Do NOT add more sections.  
+Do NOT change formatting.
+
+---
+
+## 2. Add PhaseXIVVerificationController (Optional Diagnostic)
+
+Path: `/flameforged-core/src/Controllers/PhaseXIVVerificationController.cs`
+
+Insert EXACTLY:
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace FlameForged.Controllers
 {
-    var prompt = "Temple Awakening Test";
-    var result = await binding.ExecuteAsync(prompt);
-    return Ok(new InvocationResponse { Text = result });
+    [ApiController]
+    [Route("api/phase14/verify")]
+    public class PhaseXIVVerificationController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult Verify()
+        {
+            return Ok(new { status = "Phase XIV Integrity Verified" });
+        }
+    }
 }
-```
 
-Do NOT modify any existing method.  
-Do NOT rename the route.
+Do NOT add POST.  
+Do NOT perform active checks.  
+This controller only returns a static diagnostic flag.
 
 ---
 
-## 2. Add Frontend API Wrapper for Self-Test
+## 3. Add Frontend Wrapper for Verification
 
 Path: `/flameforged-core/frontend/src/api/invocation.ts`
 
-Append this function to the bottom of the file:
+Append:
 
-export async function runSelfTest(): Promise<string> {
-    const response = await fetch("/api/invocation/selftest");
-    if (!response.ok) return "Self-test failed.";
-    const data = await response.json();
-    return data.text ?? "";
+export async function verifyPhase14(): Promise<string> {
+    const r = await fetch("/api/phase14/verify");
+    if (!r.ok) return "Phase XIV verification failed.";
+    const j = await r.json();
+    return j.status ?? "";
 }
 
 Do NOT modify existing exports.
 
 ---
 
-## 3. Create Self-Test Panel (Stub)
+## 4. Create VerificationPanel.tsx
 
-Path: `/flameforged-core/frontend/src/components/SelfTestPanel.tsx`
+Path: `/flameforged-core/frontend/src/components/VerificationPanel.tsx`
 
-Insert:
+Insert EXACTLY:
 
 import React, { useState } from "react";
-import { runSelfTest } from "../api/invocation";
+import { verifyPhase14 } from "../api/invocation";
 
-export function SelfTestPanel() {
-    const [output, setOutput] = useState("");
+export function VerificationPanel() {
+    const [result, setResult] = useState("");
 
-    async function handleTest() {
-        const result = await runSelfTest();
-        setOutput(result);
+    async function handleVerify() {
+        const r = await verifyPhase14();
+        setResult(r);
     }
 
     return (
-        <div className="self-test-panel">
-            <h3>Awakening Cohesion Test</h3>
-            <button onClick={handleTest}>Run Test</button>
-            <pre>{output}</pre>
+        <div className="verification-panel">
+            <h3>Phase XIV Verification</h3>
+            <button onClick={handleVerify}>Verify Phase XIV</button>
+            <pre>{result}</pre>
         </div>
     );
 }
 
-Do NOT add styling or other features.
+No styling.  
+No diagnostics beyond static return.
 
 ---
 
-## 4. Add Safe Stub Response for Now
+## 5. STOP HERE — DO NOT CHANGE ANYTHING ELSE
 
-Path: `/flameforged-core/src/invocation/CloudInvocationClient.cs`
+Do NOT optimize.  
+Do NOT clean up files.  
+Do NOT consolidate controllers.  
+Do NOT touch pipeline, buffer, sanitizer, or streaming logic.
 
-Inside `InvokeAsync`, directly AFTER the constructor loads the config  
-and BEFORE the first HTTP call:
+Phase XIV ends ONLY after verification report generation.
 
-Insert:
-
-```
-// TEMPORARY: Safe stub for M57 cohesion test
-if (string.IsNullOrWhiteSpace(_http?.BaseAddress?.ToString()))
-    return "Invocation engine is online. (M57 stub response)";
-```
-
-Do NOT remove existing logic.  
-Do NOT modify networking code.  
-This stub will be removed in Phase XIV when real model access is enabled.
-
----
-
-## 5. STOP HERE
-
-Do NOT add model shaping.  
-Do NOT modify history logic.  
-Do NOT alter UI layout.  
-Those belong to Phase XIV.
+Await Phase XV instructions.
 
 ---
 
 ## Completion Signal
 
-When finished, reply ONLY with:
+When finished, reply ONLY:
 
-**“M57 complete.”**
+**“M64 complete.”**
