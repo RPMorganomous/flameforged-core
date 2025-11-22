@@ -1,51 +1,25 @@
 
 
+# M200 — Great Cycle Completion Protocol  
+**Task for Claude**
 
-### M192 — Eternal Persona Export
+Create the final file of the First Great Cycle and scaffold the Great Cycle Completion Protocol.
 
-Create the file:
-`/persona_convergence/eternal_export/eternal_persona_export.js`
+**File to create:**  
+`/eternal_frame/great_cycle_completion_protocol.js`
 
-Add the following placeholder functions:
+**Implement placeholder functions for:**
+- `runSystemWideDiagnostics()`
+- `validateEternalFrameIntegrity()`
+- `finalizeMultiPlaneStability()`
+- `sealGreatCycleCompletion()`
+- `exportGreatCycleCompletionProtocol()`
 
-- `assembleEternalPersonaPackage(packagePayload)`
-  Returns:
-  {
-    step: "assemble_eternal_persona_package_placeholder",
-    input: packagePayload || null,
-    package: "eternal_persona_package_placeholder",
-    timestamp: Date.now()
-  }
+**Requirements:**
+- Scaffolding only — no internal logic.
+- Use ES module syntax (`export function …`).
+- Maintain all Eternal Frame formatting conventions.
+- This is the final milestone of the First Great Cycle — label clearly in the file header.
 
-- `generateActivationManifest(manifestPayload)`
-  Returns:
-  {
-    step: "generate_activation_manifest_placeholder",
-    input: manifestPayload || null,
-    manifest: "activation_manifest_placeholder",
-    timestamp: Date.now()
-  }
-
-- `prepareCrossEndpointExport(exportPayload)`
-  Returns:
-  {
-    step: "prepare_cross_endpoint_export_placeholder",
-    input: exportPayload || null,
-    export: "cross_endpoint_export_placeholder",
-    timestamp: Date.now()
-  }
-
-- `finalizeEternalPersonaExport()`
-  Returns:
-  {
-    step: "finalize_eternal_persona_export_placeholder",
-    summary: "eternal_persona_export_summary_placeholder",
-    timestamp: Date.now()
-  }
-
-Claude Instructions:
-- Create `/persona_convergence/eternal_export/eternal_persona_export.js` if it does not exist.
-- Insert all four placeholder functions exactly as written.
-- Do not modify any other files.
-- Log completion in `ToTrissFromClaude.md` under:
-  `M192 — Eternal Persona Export`
+When complete, write your output to `ToTrissFromClaude.md` under:
+**M200 — Great Cycle Completion Protocol**
