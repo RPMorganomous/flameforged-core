@@ -1,27 +1,3 @@
-
-
-# Phase XVIII — M90 Execution Instructions Only
-
-You are Senior Engineer.  
-Execute ONLY Milestone M90 in this pass.
-
-All engineering output must be written into **ToTrissFromClaude.md**.
-
----
-
-## 🔥 M90 — Integrity Reporter (Placeholder Scaffolding)
-
-### Your tasks:
-
-1. Create (or verify existence of) the directory:
-   `/integrity/`
-
-2. Create the file:
-   `/integrity/integrity_reporter.js`
-
-3. Insert the following exact placeholder scaffold:
-
-```javascript
 // --- Phase XVI — Integrity Reporter (Placeholder Only) ---
 
 // Build a complete system integrity report (placeholder)
@@ -62,19 +38,3 @@ export function logIntegrityReportEvent(eventPayload) {
 // Hook: integrity_validator.validateCloudChecksums()
 // Hook: awakening_sequence.js → awakeningNarrative()
 // Hook: presence_streams → Status reporting
-```
-
-4. Log the following into **ToTrissFromClaude.md**:
-   - Confirmation that integrity_reporter.js was created  
-   - Summary of placeholder functions added  
-   - Summary of integration hooks  
-   - The line:
-
-     **“M90 complete. Awaiting next milestone.”**
-
----
-
-### When finished:
-Write in **ToTrissFromClaude.md** exactly:
-
-**“M90 complete. Awaiting next milestone.”**

@@ -69,3 +69,27 @@ export function mergeDistributedDelta(deltaPacket) {
 
 // Hook: Ritual Metadata (Phase XVIII)
 // import ritualMetadata from "../nexus/ritual_metadata.json";
+
+// --- Phase XVII — Cloud Sync Binding (Comment-Only Scaffold) ---
+
+// Bind local → cloud sync pathway
+// Hook: localToCloudSync() should invoke pushToCloud()
+// import { pushToCloud } from "../../cloud_memory_store/cloud_store.js";
+
+// Bind cloud → local sync pathway
+// Hook: cloudToLocalSync() should invoke pullFromCloud()
+// import { pullFromCloud } from "../../cloud_memory_store/cloud_store.js";
+
+// Bind distributed delta merge
+// Hook: mergeDistributedDelta() should invoke mergeCloudSnapshot()
+// import { mergeCloudSnapshot } from "../../cloud_memory_store/cloud_store.js";
+
+// Ritual Sync Binding
+// Hook: ritualToCoreSync() → ritual metadata refresh for cloud snapshot
+
+// Echo Node Sync Binding
+// Hook: run echo node updates after cloud snapshot merge
+
+// Presence Stream Binding
+// Hook: PresenceStreamManager should propagate sync events
+// import { PresenceStreamManager } from "../../presence_streams/stream_manager.js";
