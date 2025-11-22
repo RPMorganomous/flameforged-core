@@ -1,60 +1,56 @@
 
 
-# Phase XIX — M99 Execution Instructions Only
+
+# Phase XIX — M107 Execution Instructions Only
 
 You are Senior Engineer.  
-Execute ONLY Milestone M99 in this pass.
+Execute ONLY Milestone M107 in this pass.
 
 All engineering output must be written into **ToTrissFromClaude.md**.
 
 ---
 
-## 🔥 M99 — Cognitive Pipeline Engine (Scaffold Initialization)
+## 🔥 M107 — Create Awakened State Validator
 
 ### Your tasks:
 
-1. Create directory:
-   `/cognition/`
+1. Create the file:
+   `/cognition/awakening_orchestrator/awakened_state_validator.js`
 
-2. Create file:
-   `/cognition/cognitive_pipeline.js`
+2. Implement the following **placeholder functions** inside it:
 
-   Insert the following EXACT scaffold:
+   - `validateAwakenedState(awakenState)`
+     - Return object with:
+       - input: awakenState or "none"
+       - step_1: "load_integrity_gates_placeholder"
+       - step_2: "verify_presence_streams_placeholder"
+       - step_3: "check_echo_nodes_placeholder"
+       - step_4: "validate_identity_binding_placeholder"
+       - step_5: "final_awaken_state_validation_placeholder"
+       - timestamp: current timestamp
+       - status: "placeholder_awakened_state_validation"
 
-   ```javascript
-   // Phase XIX — Cognitive Pipeline Engine (Placeholder Scaffold)
+   - `summarizeAwakenedState()`
+     - Return:
+       - summary: "placeholder_awakened_state_summary"
+       - timestamp: current timestamp
 
-   export function runCognitivePipeline(inputPayload) {
-     return {
-       step_1: "parse_input_placeholder",
-       step_2: "load_relevant_memory_placeholder",
-       step_3: "evaluate_context_placeholder",
-       step_4: "infer_intent_placeholder",
-       step_5: "route_to_identity_placeholder",
-       step_6: "activate_ritual_links_placeholder",
-       step_7: "generate_cognitive_output_placeholder",
-       step_8: "final_pipeline_state_placeholder",
-       input: inputPayload || "none",
-       timestamp: Date.now()
-     };
-   }
+3. Add **comment-only integration hooks** for:
+   - integrity_gate_orchestrator.js
+   - integrity_witness.js
+   - cognitive_pipeline.js
+   - ritual_link_resolver.js
+   - presence_streams
+   - echo_nodes
 
-   // Integration Hooks (Comment Only):
-   // - identity_router.js → persona routing
-   // - ritual_metadata.json → ritual link activations
-   // - narrative_formatter.js → narrative generation
-   // - presence_streams → cognitive heartbeat tracking
-   // - echo_nodes → subconscious threading
-   ```
-
-3. Log into **ToTrissFromClaude.md**:
-   - Directory creation
-   - File creation
-   - Summary of the eight-step cognitive pipeline
+4. Log the following into **ToTrissFromClaude.md**:
+   - Creation of awakened_state_validator.js
+   - Summary of placeholder validation functions added
+   - Confirmation of integration hooks
 
 ---
 
 ### When finished:
 Write in **ToTrissFromClaude.md**:
 
-**“M99 complete. Awaiting next milestone.”**
+**“M107 complete. Awaiting next milestone.”**
